@@ -57,7 +57,7 @@ Create .env file and add
 ```bash
   PORT=3000
 ```
-Go to [Genius API](https://genius.com/api-clients) create api key and add to 
+Go to [Genius API](https://genius.com/api-clients) create api key and add
 ```bash
   GENIUS_APIKEY=your_api_key
 ```
