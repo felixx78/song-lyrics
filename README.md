@@ -1,7 +1,7 @@
 
 # Songs lyrics
 
-Song lyrics is website for translating lyrics from Genius
+Songs lyrics is website for translating lyrics from Genius
 
 ## Demo
 
