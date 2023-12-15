@@ -5,7 +5,7 @@ Songs lyrics is website for translating lyrics from Genius
 
 ## Demo
 
-[Songs Lyrics](https://songlyrics-72bd9.web.app/)
+[Songs Lyrics](https://songlyrics-72bd9.web.app/) (The server sometimes might not response because the site using free hosting)
 
 
 ## Tech Stack
