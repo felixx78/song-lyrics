@@ -66,7 +66,7 @@ const songRouter = Router()
       let translatedLyrics = "";
       let src = "en";
 
-      if (lyrics.length !== 0) {
+      if (lyrics && lyrics.length !== 0) {
         let i = 0;
         while (translatedLyrics.length === 0 && i < proxies.length) {
           console.log("trying proxy: ", proxies[i]);

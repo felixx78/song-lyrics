@@ -69,6 +69,11 @@ function SongPage() {
       </div>
     );
 
+  if (!data?.lyrics)
+    return (
+      <div className="pt-6 text-center text-2xl">No lyrics for this song</div>
+    );
+
   if (data && languages) {
     const song = data.song;
 
