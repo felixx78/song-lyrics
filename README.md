@@ -1,19 +1,16 @@
-
 # Songs lyrics
 
 Songs lyrics is website for translating lyrics from Genius
 
 ## Demo
 
-[Songs Lyrics](https://songlyrics-72bd9.web.app/)
-
+[Songs Lyrics](https://songslyrics.vercel.app)
 
 ## Tech Stack
 
 **Client:** React, TailwindCSS, React Query, React Router, React Loading Skeleton, Typescript
 
 **Server:** Node, Express, Typescript, Genius API
-
 
 ## Run Locally
 
@@ -54,14 +51,19 @@ Install dependencies for server
 ```
 
 Create .env file and add
+
 ```bash
   PORT=3000
 ```
+
 Go to [Genius API](https://genius.com/api-clients) create api key and add
+
 ```bash
   GENIUS_APIKEY=your_api_key
 ```
+
 Run server
+
 ```bash
   npm run dev
 ```
