@@ -8,7 +8,9 @@ dotenv.config();
 const app: Application = express();
 const port = process.env.PORT || 8000;
 
-app.use(cors({origin: ['https://songlyrics-72bd9.web.app', 'http://localhost:5173']}));
+app.use(
+  cors({ origin: ["https://songslyrics.vercel.app", "http://localhost:5173"] })
+);
 
 app.use(express.json());
 
