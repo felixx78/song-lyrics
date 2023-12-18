@@ -53,19 +53,54 @@ const songRouter = Router()
         optimizeQuery: true,
       });
 
-      const agent = new HttpProxyAgent("http://212.107.31.118:80");
-      const { text: translatedLyrics, raw } = await translate(lyrics, {
-        to: language,
-        fetchOptions: { agent },
-      });
+      const proxies = [
+        "https://89.58.48.220:10003",
+        "http://153.19.91.77:80",
+        "http://195.181.172.223:8082",
+        "http://129.150.39.9:80",
+        "http://142.44.210.174:80",
+        "http://162.248.224.103:80",
+        "http://47.74.152.29:8888",
+      ];
+
+      let translatedLyrics = "";
+      let src = "en";
+
+      if (lyrics.length !== 0) {
+        let i = 0;
+        while (translatedLyrics.length === 0 && i < proxies.length) {
+          console.log("trying proxy: ", proxies[i]);
+          const agent = new HttpProxyAgent(proxies[i]);
+          try {
+            await Promise.race([
+              translate(lyrics, {
+                to: language,
+                fetchOptions: { agent },
+              }),
+              new Promise((resolve) =>
+                setTimeout(() => {
+                  resolve("timeout");
+                }, 5000)
+              ),
+            ]).then((result: any) => {
+              if (result === "timeout") throw new Error("timeout");
+
+              translatedLyrics = result.text;
+              src = result.raw.src;
+            });
+          } catch (err) {
+            i++;
+          }
+        }
+      }
 
       return res.json({
         song: geniusData.response.song,
         lyrics,
         //  translatedLyrics: lyrics,
         translatedLyrics,
-        originalLanguage: getLanguageByCode(raw.src),
-        //originalLanguage: getLanguageByCode("en"),
+        // originalLanguage: getLanguageByCode(raw.src),
+        originalLanguage: getLanguageByCode("en"),
       });
     } catch (err) {
       console.log(err);
