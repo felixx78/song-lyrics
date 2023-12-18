@@ -99,8 +99,7 @@ const songRouter = Router()
         lyrics,
         //  translatedLyrics: lyrics,
         translatedLyrics,
-        // originalLanguage: getLanguageByCode(raw.src),
-        originalLanguage: getLanguageByCode("en"),
+        originalLanguage: getLanguageByCode(src),
       });
     } catch (err) {
       console.log(err);
