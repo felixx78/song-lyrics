@@ -1,7 +1,7 @@
 import { Song } from "../lib/definitons";
 
 export const fetchLanguages = async () => {
-  const response = await fetch("http://localhost:3000/api/songs/languages");
+  const response = await fetch("/api/songs/languages");
 
   const data = await response.json();
 
@@ -10,7 +10,7 @@ export const fetchLanguages = async () => {
 
 export const fetchSongs = async (q: string, page: number) => {
   const response = await fetch(
-    `http://localhost:3000/api/songs/search?q=${q}&page=${page}`,
+    `/api/songs/search?q=${q}&page=${page}`,
   );
   const data = await response.json();
 
@@ -25,7 +25,7 @@ export const fetchSong = async ({ queryKey }: any) => {
   const language = localStorage.getItem("selectedLanguage") || "en";
 
   const response = await fetch(
-    `http://localhost:3000/api/songs/${id}?language=${language}`,
+    `/api/songs/${id}?language=${language}`,
   );
 
   const data = await response.json();
