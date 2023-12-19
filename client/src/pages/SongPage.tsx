@@ -16,7 +16,7 @@ function SongPage() {
   const [displayMode, setDisplayMode] = useState(
     localStorage.getItem("displayMode") || "1"
   );
-  const [align, setAlign] = useState(localStorage.getItem("align") || "Center");
+  const [align, setAlign] = useState(localStorage.getItem("align") || "Left");
   const [isReversed, setIsReversed] = useState(
     JSON.parse(localStorage.getItem("isReversed") || "false")
   );
