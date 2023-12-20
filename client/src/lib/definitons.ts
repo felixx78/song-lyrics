@@ -24,5 +24,4 @@ export type Artist = {
   name: string;
   image_url: string;
   url: string;
-  songs: Song[];
 };
