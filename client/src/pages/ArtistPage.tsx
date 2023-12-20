@@ -42,7 +42,6 @@ function ArtistPage() {
   );
 
   const ArtistInfo = () => {
-    console.log(artist)
     if (artist) {
       return (
         <>
