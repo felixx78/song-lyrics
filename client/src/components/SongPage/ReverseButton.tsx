@@ -14,7 +14,7 @@ function ReverseButton({
     return (
       <button
         onClick={handleReverse}
-        className="rounded-md bg-indigo-800 px-8 py-1"
+        className="rounded-md bg-indigo-600 px-8 py-1"
       >
         Reversed
       </button>
