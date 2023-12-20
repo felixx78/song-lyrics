@@ -10,7 +10,7 @@ Songs lyrics is website for translating lyrics from Genius
 
 **Client:** React, TailwindCSS, React Query, React Router, React Loading Skeleton, Typescript
 
-**Server:** Node, Express, Typescript, Genius API
+**Server:** Go, Genius API
 
 ## Run Locally
 
@@ -46,15 +46,7 @@ Install dependencies for server
   cd ./server
 ```
 
-```bash
-  npm install
-```
-
-Create .env file and add
-
-```bash
-  PORT=3000
-```
+Create .env file
 
 Go to [Genius API](https://genius.com/api-clients) create api key and add
 
@@ -65,5 +57,5 @@ Go to [Genius API](https://genius.com/api-clients) create api key and add
 Run server
 
 ```bash
-  npm run dev
+  go run main.go 
 ```
