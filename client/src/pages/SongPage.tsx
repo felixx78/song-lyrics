@@ -123,7 +123,7 @@ function SongPage() {
               </div>
 
               {song.release_date_for_display && (
-                <div className="mb-4 flex items-center gap-2">
+                <div className="mb-2 flex items-center gap-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -143,7 +143,7 @@ function SongPage() {
               )}
             </div>
 
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4 pt-2">
               <SelectDisplayMode onChange={setDisplayMode} />
               <SelectAlign onChange={setAlign} />
               <ReverseButton
