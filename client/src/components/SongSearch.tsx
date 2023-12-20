@@ -6,6 +6,8 @@ function SongSearch({ py }: { py?: string }) {
   const [query, setQuery] = useState("");
 
   const search = () => {
+    if(query === "") return;
+
     setQuery("");
     return navigate(`/search?q=${query.replace(/ /g, "+")}`);
   };
