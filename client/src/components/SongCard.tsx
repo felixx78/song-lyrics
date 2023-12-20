@@ -5,18 +5,18 @@ import Skeleton from "react-loading-skeleton";
 function SongCard({ song }: { song: Song }) {
   return (
     <Link to={`/song/${song.id}`} className="nav-link block w-[300px]">
-      <div className="h-[300px] bg-[#7b69f8] overflow-hidden rounded-md mb-2">
-      <img
-        width={300}
-        loading="lazy"
-        src={song.header_image_thumbnail_url}
-        alt=""
-      />
+      <div className="mb-2 h-[300px] overflow-hidden rounded-md bg-[#7b69f8]">
+        <img
+          width={300}
+          loading="lazy"
+          src={song.song_art_image_thumbnail_url}
+          alt=""
+        />
       </div>
 
-      <div className="text-xl font-bold truncate">{song.title}</div>
+      <div className="truncate text-xl font-bold">{song.title}</div>
 
-      <div className="mb-1 text-lg text-gray-300 truncate">
+      <div className="mb-1 truncate text-lg text-gray-300">
         <Link
           to={`/artist/${song.primary_artist.id}`}
           className="p-1 pl-0 hover:underline"
