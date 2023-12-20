@@ -42,8 +42,6 @@ func Search(w http.ResponseWriter, r *http.Request) {
   apiKey, _ := utils.GetGeniusApiKey()
   apiUrl := "https://api.genius.com/search?page=" + page + "&q=" + query + "&access_token=" + apiKey
 
-  fmt.Println(apiUrl)
-
   resp, err := http.Get(apiUrl)
   if err != nil {
     fmt.Println(err)
