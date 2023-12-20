@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"songslyrics/handlers"
 	"github.com/gorilla/mux"
+  gorrilaHandlers "github.com/gorilla/handlers"
 )
 
 func main(){
@@ -17,14 +18,13 @@ func main(){
   r.HandleFunc("/api/artists/songs/{id}", handlers.ArtistSongs)
   r.HandleFunc("/api/artists/{id}", handlers.ArtistById)
 
-  headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
-	originsOk := handlers.AllowedOrigins([]string{"https://songslyrics.vercel.app","http://localhost:5173"}
-	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS"})
+  headersOk := gorrilaHandlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
+  originsOk := gorrilaHandlers.AllowedOrigins([]string{"https://songslyrics.vercel.app", "http://localhost:5173"})
+	methodsOk := gorrilaHandlers.AllowedMethods([]string{"GET"})
 
-	// Wrap your router with the CORS middleware
-	corsRouter := handlers.CORS(headersOk, originsOk, methodsOk)(r)
+	corsRouter := gorrilaHandlers.CORS(headersOk, originsOk, methodsOk)(r)
   
-  http.Handle("/", r)
+  http.Handle("/", corsRouter)
   err := http.ListenAndServe(":3000", nil);
   if(err != nil){
     fmt.Println(err)
