@@ -35,7 +35,7 @@ function SelectLanguage({
         <button
           ref={refButton}
           onClick={() => setIsOpened(!isOpened)}
-          className="rounded-md bg-indigo-500 px-10 py-1"
+          className="rounded-md bg-indigo-500 px-10 py-1 active:bg-indigo-600"
         >
           {Object.entries(languages).find(([_, code]) => code === value)?.[0]}
         </button>

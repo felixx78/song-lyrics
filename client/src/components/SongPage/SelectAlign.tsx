@@ -26,7 +26,7 @@ const SelectAlign = ({ onChange }: { onChange: (align: string) => void }) => {
       <button
         ref={refButton}
         onClick={() => setIsOpened(!isOpened)}
-        className="rounded-md bg-indigo-500 px-8 py-1"
+        className="rounded-md bg-indigo-500 px-8 py-1 active:bg-indigo-600"
       >
         Align
       </button>
