@@ -14,14 +14,14 @@ function SongPage() {
   const { id } = useParams();
 
   const [displayMode, setDisplayMode] = useState(
-    localStorage.getItem("displayMode") || "1"
+    localStorage.getItem("displayMode") || "1",
   );
   const [align, setAlign] = useState(localStorage.getItem("align") || "Left");
   const [isReversed, setIsReversed] = useState(
-    JSON.parse(localStorage.getItem("isReversed") || "false")
+    JSON.parse(localStorage.getItem("isReversed") || "false"),
   );
   const [selectedLanguage, setSelectedLanguage] = useState(
-    localStorage.getItem("selectedLanguage") || "en"
+    localStorage.getItem("selectedLanguage") || "en",
   );
 
   const { data, isLoading } = useQuery({
@@ -69,11 +69,6 @@ function SongPage() {
       </div>
     );
 
-  if (!data?.lyrics)
-    return (
-      <div className="pt-6 text-center text-2xl">No lyrics for this song</div>
-    );
-
   if (data && languages) {
     const song = data.song;
 
@@ -84,7 +79,7 @@ function SongPage() {
           <img
             height={300}
             width={300}
-            src={song.header_image_thumbnail_url}
+            src={song.song_art_image_thumbnail_url}
             alt=""
           />
           <div className="flex flex-col md:min-h-[300px]">
@@ -162,13 +157,17 @@ function SongPage() {
           </div>
         </div>
 
-        <Lyrics
-          displayMode={displayMode}
-          align={align}
-          isReversed={isReversed}
-          lyrics={data.lyrics}
-          translatedLyrics={data.translatedLyrics}
-        />
+        {data?.lyrics ? (
+          <Lyrics
+            displayMode={displayMode}
+            align={align}
+            isReversed={isReversed}
+            lyrics={data.lyrics}
+            translatedLyrics={data.translatedLyrics}
+          />
+        ) : (
+          <div className="text-2xl text-center">No lyrics for this song</div>
+        )}
       </div>
     );
   }
