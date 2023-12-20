@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"songslyrics/types"
 	"songslyrics/utils"
+	"strings"
 )
 
 type Hit struct {
@@ -35,11 +36,15 @@ func Search(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, `{"message": "No query provided"}`)
 		return
   }
+  
+  query = strings.ReplaceAll(query, " ", "%2B")
 
   apiKey, _ := utils.GetGeniusApiKey()
-  url := "https://api.genius.com/search?page=" + page + "&q=" + query + "&access_token=" + apiKey
+  apiUrl := "https://api.genius.com/search?page=" + page + "&q=" + query + "&access_token=" + apiKey
 
-  resp, err := http.Get(url)
+  fmt.Println(apiUrl)
+
+  resp, err := http.Get(apiUrl)
   if err != nil {
     fmt.Println(err)
     return
