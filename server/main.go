@@ -16,7 +16,8 @@ func main(){
   
   r.HandleFunc("/songs/languages", handlers.Languages)
   r.HandleFunc("/songs/search", handlers.Search)
-  r.HandleFunc("/songs/{id}", handlers.LyricsById)
+  r.HandleFunc("/songs/lyrics", handlers.LyricsByUrl)
+  r.HandleFunc("/songs/{id}", handlers.SongById)
 
   r.HandleFunc("/artists/songs/{id}", handlers.ArtistSongs)
   r.HandleFunc("/artists/{id}", handlers.ArtistById)

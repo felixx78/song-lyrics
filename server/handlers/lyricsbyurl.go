@@ -3,64 +3,28 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"regexp"
-	"songslyrics/types"
-	"songslyrics/utils"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/bregydoc/gtranslate"
-	"github.com/gorilla/mux"
 )
 
-type GeniusResponse struct {
-  Meta struct {
-    Status int `json:"status"`
-  } `json:"meta"`
-  Response struct { 
-    Song types.Song `json:"song"`
-  } `json:"response"`
-}
-
 type LyricsByIdResponse struct{
-  Song types.Song `json:"song"`
   Lyrics string `json:"lyrics"`
   TranslatedLyrics string `json:"translatedLyrics"`
 }
 
-func LyricsById(w http.ResponseWriter, r *http.Request){
+func LyricsByUrl(w http.ResponseWriter, r *http.Request){
   queryParams := r.URL.Query()
 
-  vars := mux.Vars(r)
-  songId := vars["id"]
-
-  apiKey, _ := utils.GetGeniusApiKey()
-
-  // getting song object from genius api
-
-  apiurl := "https://api.genius.com/songs/" + songId + "?access_token=" + apiKey
-
-  resp, err := http.Get(apiurl)
-  if err != nil {
-    fmt.Println(err)
-    return
-  }
-  defer resp.Body.Close()
-
-  var song GeniusResponse
-
-  bytesBody, _ := io.ReadAll(resp.Body)
-
-  if err := json.Unmarshal(bytesBody, &song); err != nil {
-    http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-    return
-  }
+  toLanguage := queryParams.Get("language")
+  url := queryParams.Get("url")
 
   // getting lyrics
 
-  resp, err = http.Get(song.Response.Song.URL)
+  resp, err := http.Get(url)
   if err != nil {
     fmt.Println(err)
     http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -88,7 +52,6 @@ func LyricsById(w http.ResponseWriter, r *http.Request){
   lyrics = strings.ReplaceAll(lyrics, "\\\\n", "\n")
 
   // translating lyrics
-  toLanguage := queryParams.Get("language")
 
   if toLanguage == ""{
     toLanguage = "en"
@@ -100,7 +63,6 @@ func LyricsById(w http.ResponseWriter, r *http.Request){
   }
 
   response := LyricsByIdResponse{
-    Song: song.Response.Song,
     Lyrics: lyrics,
     TranslatedLyrics: translatedLyrics,
   }
