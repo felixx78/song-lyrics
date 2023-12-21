@@ -30,13 +30,13 @@ export const fetchSong = async ({ queryKey }: any) => {
 
   const data = await response.json();
 
-  return data as {
-    song: Song;
-  };
+  return data as Song;
 };
 
 export const fetchLyrics = async ({ queryKey }: any) => {
   const [_, url] = queryKey;
+  if (url === "") return;
+
   const language = localStorage.getItem("selectedLanguage") || "en";
 
   const response = await fetch(
