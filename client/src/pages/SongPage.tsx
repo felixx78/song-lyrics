@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchLanguages, fetchSong } from "../api/songs";
+import { fetchLanguages, fetchLyrics, fetchSong } from "../api/songs";
 import Lyrics, { LyricsSkeleton } from "../components/SongPage/Lyrics";
 import SelectDisplayMode from "../components/SongPage/SelectDisplayMode";
 import SelectAlign from "../components/SongPage/SelectAlign";
@@ -24,14 +24,19 @@ function SongPage() {
     localStorage.getItem("selectedLanguage") || "en",
   );
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["song", id, selectedLanguage],
+  const { data: song, isLoading } = useQuery({
+    queryKey: ["song", id],
     queryFn: fetchSong,
   });
 
   const { data: languages } = useQuery({
     queryKey: ["languages"],
     queryFn: fetchLanguages,
+  });
+
+  const { data: lyrics, isLoading: isLyricsLoading } = useQuery({
+    queryKey: ["lyrics", song?.url || ""],
+    queryFn: fetchLyrics,
   });
 
   if (isLoading)
@@ -69,9 +74,7 @@ function SongPage() {
       </div>
     );
 
-  if (data && languages) {
-    const song = data.song;
-
+  if (song && languages) {
     return (
       <div className="container py-10">
         {/* header */}
@@ -159,13 +162,17 @@ function SongPage() {
           </div>
         </div>
 
-        {data?.lyrics ? (
+        {isLyricsLoading && (
+          <LyricsSkeleton displayMode={displayMode} align={align} />
+        )}
+
+        {lyrics?.lyrics ? (
           <Lyrics
             displayMode={displayMode}
             align={align}
             isReversed={isReversed}
-            lyrics={data.lyrics}
-            translatedLyrics={data.translatedLyrics}
+            lyrics={lyrics.lyrics}
+            translatedLyrics={lyrics.translatedLyrics}
           />
         ) : (
           <div className="text-center text-2xl">No lyrics for this song</div>
