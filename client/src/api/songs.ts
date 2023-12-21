@@ -25,18 +25,28 @@ export const fetchSongs = async (q: string, page: number) => {
 
 export const fetchSong = async ({ queryKey }: any) => {
   const [_, id] = queryKey;
-  const language = localStorage.getItem("selectedLanguage") || "en";
 
-  const response = await fetch(
-    `${apiUrl}/api/songs/${id}?language=${language}`,
-  );
+  const response = await fetch(`${apiUrl}/api/songs/${id}`);
 
   const data = await response.json();
 
   return data as {
     song: Song;
+  };
+};
+
+export const fetchLyrics = async ({ queryKey }: any) => {
+  const [_, url] = queryKey;
+  const language = localStorage.getItem("selectedLanguage") || "en";
+
+  const response = await fetch(
+    `${apiUrl}/api/songs/lyrics?url=${url}&language=${language}`,
+  );
+
+  const data = await response.json();
+
+  return data as {
     lyrics: string;
     translatedLyrics: string;
-    originalLanguage: string;
   };
 };
