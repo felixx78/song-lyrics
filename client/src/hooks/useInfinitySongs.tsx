@@ -25,7 +25,7 @@ function useInfinitySongs(query: string) {
   };
 
   useEffect(() => {
-    if (hasNextPage && !isLoading) {
+    if (hasNextPage) {
       setIsLoading(true);
       fetchNext();
       setTimeout(() => setIsLoading(false), 1000);

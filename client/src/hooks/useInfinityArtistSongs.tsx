@@ -20,7 +20,7 @@ function useInfinityArtistSongs(id: number | string) {
   };
 
   useEffect(() => {
-    if (hasNextPage && !isLoading) {
+    if (hasNextPage) {
       setIsLoading(true);
       fetchNext();
       setTimeout(() => setIsLoading(false), 1000);
