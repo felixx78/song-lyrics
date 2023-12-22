@@ -27,7 +27,7 @@ function SearchPage() {
 
   return (
     <div className="container pb-8 pt-4">
-      <h1 className="mb-4 text-4xl">
+      <h1 className="mb-4 text-2xl sm:text-4xl">
         {data.length === 0 && !isLoading && "No"} Results for "{query.trim()}"
       </h1>
 
