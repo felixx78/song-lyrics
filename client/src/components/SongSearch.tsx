@@ -1,28 +1,50 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { fetchSongs } from "../api/songs";
 
 function SongSearch({ py }: { py?: string }) {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
+  const { data: hints } = useQuery({
+    queryKey: ["hints", query],
+    queryFn: () => (query !== "" ? fetchSongs(query, 1) : []),
+  });
+  const [selectedHint, setSelectedHint] = useState<number>(-1);
 
-  const search = () => {
-    if(query === "") return;
-
+  const search = (str: string) => {
     setQuery("");
-    return navigate(`/search?q=${query.replace(/ /g, "+")}`);
+    if (str === "") return;
+
+    return navigate(`/search?q=${str.trim().replace(/ /g, "+")}`);
+  };
+
+  const handleOnSearch = () => {
+    search(query);
   };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      search();
+      if (selectedHint === -1) search(query);
+      else if (hints) search(hints[selectedHint].result.title);
+    } else if (e.key === "ArrowDown") {
+      if (hints && selectedHint === hints?.length - 1) return;
+      setSelectedHint(selectedHint !== -1 ? selectedHint + 1 : 0);
+    } else if (e.key === "ArrowUp") {
+      if (hints && selectedHint === 0) return;
+      setSelectedHint(selectedHint !== -1 ? selectedHint - 1 : -1);
     }
   };
 
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+  };
+
   return (
-    <div className="relative w-full max-w-[600px]">
+    <div className="relative w-full max-w-[600px] font-semibold">
       <input
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={handleOnChange}
         className={`w-full rounded-xl py-${
           py || "1"
         } pl-4 pr-11 font-medium text-black focus:outline-none`}
@@ -31,7 +53,7 @@ function SongSearch({ py }: { py?: string }) {
         placeholder="Search for a song"
       />
       <button
-        onClick={search}
+        onClick={handleOnSearch}
         className="absolute right-2 top-1/2 -translate-y-1/2 transform px-1 text-[#35335C]"
       >
         <svg
@@ -57,6 +79,24 @@ function SongSearch({ py }: { py?: string }) {
           />
         </svg>
       </button>
+
+      {hints && (
+        <div className="absolute left-0 top-full mt-[5px] max-h-[200px] w-full overflow-y-scroll bg-white text-black md:max-h-[300px] lg:max-h-none lg:overflow-hidden">
+          {hints.map((song, i) => (
+            <button
+              className={`block w-full truncate py-1 pl-2 text-left hover:bg-gray-300 ${
+                i === selectedHint && "bg-gray-300"
+              }`}
+              key={song.result.id}
+              onClick={() => {
+                search(song.result.title.trim());
+              }}
+            >
+              {song.result.title.trim()}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
