@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
+	"html"
 	"net/http"
 	"regexp"
 	"strings"
@@ -41,15 +42,20 @@ func LyricsByUrl(w http.ResponseWriter, r *http.Request){
     }
   })
 
-  preloadedState = strings.ReplaceAll(preloadedState, `\\"`, `"`)
+  preloadedState = strings.ReplaceAll(preloadedState, `\"`, `"`)
 
   re := regexp.MustCompile(`"html":"(.+?)",`)
-  matches := re.FindStringSubmatch(strings.ReplaceAll(preloadedState, `\"`, `"`))
+  matches := re.FindStringSubmatch(preloadedState)
 
   re = regexp.MustCompile(`<\/?[^>]+>`)
   lyrics := re.ReplaceAllString(matches[1], "")
 
+  lyrics = html.UnescapeString(lyrics)
+
   lyrics = strings.ReplaceAll(lyrics, "\\\\n", "\n")
+
+  lyrics = strings.ReplaceAll(lyrics, `\\"`, `"`)
+  lyrics = strings.ReplaceAll(lyrics, `\'`, "`")
 
   // translating lyrics
 
