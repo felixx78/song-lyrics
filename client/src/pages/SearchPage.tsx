@@ -22,12 +22,14 @@ function SearchPage() {
 
       if (node) intObserver.current.observe(node);
     },
-    [hasNextPage, isLoading]
+    [hasNextPage, isLoading],
   );
 
   return (
     <div className="container pb-8 pt-4">
-      <h1 className="mb-4 text-4xl">Results for "{query}"</h1>
+      <h1 className="mb-4 text-4xl">
+        {data.length === 0 && !isLoading && "No"} Results for "{query}"
+      </h1>
 
       <div className="mx-auto grid max-w-[1300px] grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {!!data.length &&
