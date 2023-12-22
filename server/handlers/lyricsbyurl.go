@@ -11,7 +11,7 @@ import (
 	"github.com/bregydoc/gtranslate"
 )
 
-type LyricsByIdResponse struct{
+type LyricsByUrlResponse struct{
   Lyrics string `json:"lyrics"`
   TranslatedLyrics string `json:"translatedLyrics"`
 }
@@ -62,7 +62,7 @@ func LyricsByUrl(w http.ResponseWriter, r *http.Request){
     fmt.Println(err)
   }
 
-  response := LyricsByIdResponse{
+  response := LyricsByUrlResponse{
     Lyrics: lyrics,
     TranslatedLyrics: translatedLyrics,
   }
