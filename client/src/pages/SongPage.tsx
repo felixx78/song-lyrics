@@ -35,7 +35,7 @@ function SongPage() {
   });
 
   const { data: lyrics, isLoading: isLyricsLoading } = useQuery({
-    queryKey: ["lyrics", song?.url || ""],
+    queryKey: ["lyrics", song?.url || "", selectedLanguage],
     queryFn: fetchLyrics,
   });
 
