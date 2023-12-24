@@ -26,12 +26,10 @@ function SongSearch({ py }: { py?: string }) {
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       if (selectedHint === -1) search(query);
-      else if (hints)
-        search(
-          hints[selectedHint].result.title +
-            " by " +
-            hints[selectedHint].result.primary_artist.name,
-        );
+      else if (hints) {
+        setQuery("");
+        navigate(`/song/${hints[selectedHint].result.id}`);
+      }
     } else if (e.key === "ArrowDown") {
       if (hints && selectedHint === hints?.length - 1) return;
       setSelectedHint(selectedHint !== -1 ? selectedHint + 1 : 0);
