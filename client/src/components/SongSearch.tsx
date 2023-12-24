@@ -43,6 +43,7 @@ function SongSearch({ py }: { py?: string }) {
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
+    setSelectedHint(-1);
   };
 
   return (
