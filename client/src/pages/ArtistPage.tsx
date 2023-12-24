@@ -14,7 +14,11 @@ function ArtistPage() {
     return <Navigate to="/" />;
   }
 
-  const { data: artist, isLoading } = useQuery({
+  const {
+    data: artist,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["artist", id],
     queryFn: fetchArtist,
   });
@@ -38,7 +42,7 @@ function ArtistPage() {
 
       if (node) intObserver.current.observe(node);
     },
-    [hasNextPage, isLoading]
+    [hasNextPage, isLoading],
   );
 
   const ArtistInfo = () => {
@@ -76,6 +80,10 @@ function ArtistPage() {
       </>
     );
   };
+
+  if (isError) {
+    return <div className="pt-4 text-center text-2xl">Artist Not Found</div>;
+  }
 
   return (
     <div className="grid w-full grid-cols-6 justify-between gap-4 px-8 py-8">
