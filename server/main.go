@@ -19,6 +19,8 @@ func main(){
   r.HandleFunc("/songs/lyrics", handlers.LyricsByUrl)
   r.HandleFunc("/songs/{id}", handlers.SongById)
 
+  r.HandleFunc("/album/{artist_name}/{album_name}", handlers.AlbumSongs)
+
   r.HandleFunc("/artists/songs/{id}", handlers.ArtistSongs)
   r.HandleFunc("/artists/{id}", handlers.ArtistById)
 
