@@ -28,6 +28,12 @@ func ArtistById(w http.ResponseWriter, r *http.Request) {
     fmt.Println(err)
     return
   }
+
+  if resp.StatusCode != http.StatusOK {
+    http.Error(w, "Not Found", http.StatusNotFound)
+    return
+  }
+
   defer resp.Body.Close()
     
   body, _ := io.ReadAll(resp.Body)
