@@ -24,7 +24,11 @@ function SongPage() {
     localStorage.getItem("selectedLanguage") || "en",
   );
 
-  const { data: song, isLoading } = useQuery({
+  const {
+    data: song,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["song", id],
     queryFn: fetchSong,
   });
@@ -38,6 +42,10 @@ function SongPage() {
     queryKey: ["lyrics", song?.url || "", selectedLanguage],
     queryFn: fetchLyrics,
   });
+
+  if (isError) {
+    return <div className="pt-4 text-center text-2xl">Song Not Found</div>;
+  }
 
   if (isLoading)
     return (
