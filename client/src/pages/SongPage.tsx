@@ -90,7 +90,7 @@ function SongPage() {
               <div className="mb-2 text-3xl font-bold">{song.title}</div>
               <Link
                 to={`/artist/${song.primary_artist.id}`}
-                className="mb-1 block hover:underline"
+                className="inline-block hover:underline"
               >
                 {song.primary_artist.name}
               </Link>
