@@ -50,7 +50,7 @@ func AlbumSongs(w http.ResponseWriter, r *http.Request){
 		h3 := s.Find("h3")
 		name := strings.Split(strings.TrimSpace(h3.Text()), "\n")[0]
 
-		resp, err = http.Get("http://" + r.Host + "/api/songs/search?q=" + strings.ReplaceAll(name, " ", "%2B" + "-") + artistName)
+		resp, err = http.Get("http://" + r.Host + "/api/songs/search?q=" + strings.ReplaceAll(name, " ", "%2B") + "%2B" + strings.ReplaceAll(artistName, "-", "%2B"))
 		if err != nil {
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
@@ -71,6 +71,11 @@ func AlbumSongs(w http.ResponseWriter, r *http.Request){
 			})
 		}
   })
+
+	if len(songs) == 0 {
+		http.Error(w, "Not Found", http.StatusNotFound)
+		return
+	}
 
 	resp, err = http.Get("http://" + r.Host + "/api/songs/" + strconv.Itoa(songs[0].Id))
 	if err != nil {
