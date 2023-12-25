@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"songslyrics/types"
+	"strconv"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
@@ -19,6 +21,9 @@ type AlbumSong struct{
 type AlbumSongsResponse struct{
 	Title string `json:"title"`
 	Artist string `json:"artist"`
+	ArtistId int `json:"artist_id"`
+	Cover_Art_Url string `json:"cover_art_url"`
+	Url string `json:"url"`
 	Songs []AlbumSong `json:"songs"`
 }
 
@@ -38,11 +43,6 @@ func AlbumSongs(w http.ResponseWriter, r *http.Request){
   }
 
   doc, _ := goquery.NewDocumentFromResponse(resp) 
-
-	title := doc.Find("h1").Text()
-	formatedArtistName := doc.Find("h2").Find("a").Text()
-
-	fmt.Println(formatedArtistName)
 
 	var songs []AlbumSong
 
@@ -72,9 +72,26 @@ func AlbumSongs(w http.ResponseWriter, r *http.Request){
 		}
   })
 
+	resp, err = http.Get("http://" + r.Host + "/api/songs/" + strconv.Itoa(songs[0].Id))
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+ 	defer resp.Body.Close()
+    
+  body, _ := io.ReadAll(resp.Body)
+
+  var song types.Song
+
+  json.Unmarshal(body, &song)
+
 	response := AlbumSongsResponse{
-		Title: title,
-		Artist: formatedArtistName,
+		Title: song.Album.Name,
+		Artist: song.PrimaryArtist.Name,
+		ArtistId: song.PrimaryArtist.ID,
+		Cover_Art_Url: song.Album.CoverArtURL,
+		Url: song.Album.URL,
 		Songs: songs,
 	}
 
