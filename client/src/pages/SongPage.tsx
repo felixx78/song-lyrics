@@ -83,6 +83,14 @@ function SongPage() {
     );
 
   if (song && languages) {
+    const albumLinkSplit =
+      song.album && song.album.url.toLocaleLowerCase().split("/");
+    const albumLink =
+      albumLinkSplit &&
+      `/album/${albumLinkSplit[albumLinkSplit.length - 2]}/${
+        albumLinkSplit[albumLinkSplit.length - 1]
+      }`;
+
     return (
       <div className="container py-10">
         {/* header */}
@@ -124,7 +132,12 @@ function SongPage() {
               </div>
 
               {song.album && (
-                <div className="mb-2">Album: {song.album.name}</div>
+                <div className="mb-2">
+                  Album:{" "}
+                  <Link className="hover:underline" to={albumLink!}>
+                    {song.album.name}
+                  </Link>
+                </div>
               )}
 
               <div className="mb-2">
