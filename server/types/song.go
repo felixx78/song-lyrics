@@ -10,7 +10,7 @@ package types
   };
   featured_artists: {
     id: number;
-    name: 
+    name:
   }[];
   release_date_for_display: string;
   header_image_thumbnail_url: string;
@@ -37,6 +37,7 @@ type Album struct {
 	ID           int    `json:"id"`
 	Name         string `json:"name"`
 	CoverArtURL  string `json:"cover_art_url"`
+  URL          string `json:"url"`
 }
 
 type Song struct {
