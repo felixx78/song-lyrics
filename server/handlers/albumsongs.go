@@ -46,11 +46,12 @@ func AlbumSongs(w http.ResponseWriter, r *http.Request){
 
 	var songs []AlbumSong
 
+
   doc.Find(".chart_row").Each(func(i int, s *goquery.Selection) {
 		h3 := s.Find("h3")
 		name := strings.Split(strings.TrimSpace(h3.Text()), "\n")[0]
 
-		resp, err = http.Get("http://" + r.Host + "/api/songs/search?q=" + strings.ReplaceAll(name, " ", "%2B") + "%2B" + strings.ReplaceAll(artistName, "-", "%2B"))
+		resp, err = http.Get("http://" + r.Host + "/api/songs/search?q=" + strings.ReplaceAll(name, " ", "%2B") + "%2Bby%2B" + strings.ReplaceAll(artistName, "-", "%2B"))
 		if err != nil {
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
@@ -64,11 +65,21 @@ func AlbumSongs(w http.ResponseWriter, r *http.Request){
 
     json.Unmarshal(body, &searchApiResponse)
 
-		if len(searchApiResponse) != 0 {
+		if len(searchApiResponse) == 1 {
 			songs = append(songs, AlbumSong{
 				Name: name,
 				Id: searchApiResponse[0].Result.ID,
 			})
+		} else if len(searchApiResponse) > 1 {
+			for _, hit := range searchApiResponse {
+				if strings.HasPrefix(name, hit.Result.Title) {
+					songs = append(songs, AlbumSong{
+						Name: name,
+						Id: hit.Result.ID,
+					})
+					break
+				}
+			}
 		}
   })
 
