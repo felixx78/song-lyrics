@@ -111,7 +111,7 @@ function SongPage() {
                 {song.primary_artist.name}
               </Link>
 
-              <div className="mb-2">
+              <div className="my-2">
                 {!!song.featured_artists.length && (
                   <>
                     <span>Featuring: &nbsp;</span>
