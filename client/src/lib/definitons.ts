@@ -16,6 +16,7 @@ export type Song = {
     id: number;
     name: string;
     cover_art_url: string;
+    url: string;
   };
 };
 
