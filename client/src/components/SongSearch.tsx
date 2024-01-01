@@ -92,11 +92,7 @@ function SongSearch({ py }: { py?: string }) {
                 i === selectedHint && "bg-gray-300"
               }`}
               key={song.result.id}
-              onClick={() => {
-                search(
-                  song.result.title + " by " + song.result.primary_artist.name,
-                );
-              }}
+              onClick={() => navigate(`/song/${song.result.id}`)}
             >
               {song.result.title + " by " + song.result.primary_artist.name}
             </button>
