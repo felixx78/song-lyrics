@@ -35,7 +35,7 @@ const SelectDisplayMode = ({
         Display
       </button>
       {isOpened && (
-        <div className="absolute z-20 left-0 top-[105%] w-full divide-y-2 divide-indigo-400 rounded bg-indigo-500">
+        <div className="absolute left-0 top-[105%] z-20 w-full divide-y-2 divide-indigo-400 rounded border-2 border-indigo-400 bg-indigo-500">
           <button
             onClick={() => changeDisplayMode("1")}
             className="w-full pb-2 pt-3"

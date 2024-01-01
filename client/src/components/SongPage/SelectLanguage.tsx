@@ -79,7 +79,7 @@ function SelectLanguage({
           {Object.entries(languages).find(([_, code]) => code === value)?.[0]}
         </button>
         {isOpened && (
-          <div className="absolute left-0 top-[105%] z-20 max-h-[300px] w-full divide-y-2 divide-indigo-400 overflow-scroll overflow-x-hidden rounded bg-indigo-500">
+          <div className="absolute left-0 top-[105%] z-20 max-h-[300px] w-full divide-y-2 divide-indigo-400 overflow-scroll overflow-x-hidden rounded border-2 border-indigo-400 bg-indigo-500">
             {Object.entries(languages).map(([language, code]) => (
               <button
                 onClick={() => changeLanguage(language)}
