@@ -96,6 +96,9 @@ function SongSearch({ py }: { py?: string }) {
                 i === selectedHint && "bg-gray-300"
               }`}
               key={song.result.id}
+              title={
+                song.result.title + " by " + song.result.primary_artist.name
+              }
               onClick={() => redirectToSongPage(song.result.id)}
             >
               {song.result.title + " by " + song.result.primary_artist.name}
