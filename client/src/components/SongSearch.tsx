@@ -19,6 +19,11 @@ function SongSearch({ py }: { py?: string }) {
     return navigate(`/search?q=${str.trim().replace(/ /g, "+")}`);
   };
 
+  const redirectToSongPage = (id: number) => {
+    setQuery("");
+    navigate(`/song/${id}`);
+  };
+
   const handleOnSearch = () => {
     search(query);
   };
@@ -27,8 +32,7 @@ function SongSearch({ py }: { py?: string }) {
     if (e.key === "Enter") {
       if (selectedHint === -1) search(query);
       else if (hints) {
-        setQuery("");
-        navigate(`/song/${hints[selectedHint].result.id}`);
+        redirectToSongPage(hints[selectedHint].result.id);
       }
     } else if (e.key === "ArrowDown") {
       if (hints && selectedHint === hints?.length - 1) return;
@@ -92,7 +96,7 @@ function SongSearch({ py }: { py?: string }) {
                 i === selectedHint && "bg-gray-300"
               }`}
               key={song.result.id}
-              onClick={() => navigate(`/song/${song.result.id}`)}
+              onClick={() => redirectToSongPage(song.result.id)}
             >
               {song.result.title + " by " + song.result.primary_artist.name}
             </button>
