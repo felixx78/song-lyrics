@@ -187,7 +187,7 @@ function SongPage() {
           <LyricsSkeleton displayMode={displayMode} align={align} />
         )}
 
-        {lyrics?.lyrics ? (
+        {!isLyricsLoading && lyrics && (
           <Lyrics
             displayMode={displayMode}
             align={align}
@@ -195,7 +195,9 @@ function SongPage() {
             lyrics={lyrics.lyrics}
             translatedLyrics={lyrics.translatedLyrics}
           />
-        ) : (
+        )}
+
+        {lyrics && lyrics.lyrics.length === 0 && (
           <div className="text-center text-2xl">No lyrics for this song</div>
         )}
       </div>
