@@ -51,7 +51,7 @@ function SongPage() {
     return (
       <div className="container py-10">
         {/* header */}
-        <div className="mb-4 flex flex-col items-center gap-8 border-b-2 border-indigo-400 pb-6 md:flex-row md:items-start md:border-0">
+        <div className="mb-4 flex flex-col items-center gap-8 border-b-2 border-indigo-400 pb-6 md:flex-row md:items-start md:border-0 md:pb-0">
           {/* image */}
           <Skeleton height={300} width={300} />
           <div className="flex flex-col md:h-[300px]">
