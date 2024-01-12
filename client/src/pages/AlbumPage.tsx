@@ -58,7 +58,7 @@ function AlbumPage() {
           <div className="divide-y-2 divide-indigo-400 text-lg">
             {data.songs.map((song, i) => (
               <Link
-                className="block bg-indigo-600 p-2"
+                className="block bg-indigo-600 p-2 hover:bg-indigo-400"
                 to={`/song/${song.id}`}
                 key={song.id}
               >
