@@ -27,37 +27,42 @@ const Lyrics = ({
     <div>
       <div
         className={`${alignClass} ${
-          displayMode === "1" ? "max-w-[600px]" : "w-full"
+          displayMode === "1" || displayMode === "3"
+            ? "max-w-[600px]"
+            : "w-full"
         }`}
       >
-        {displayMode === "1"
-          ? lyricsSplit.map((line, index) => {
-              return (
-                <div key={line + index} className="mb-2">
-                  <div className="text-lg">
-                    {isReversed ? line : translatedLyricsSplit[index]}
-                  </div>
+        {(displayMode === "1" || displayMode === "3") &&
+          lyricsSplit.map((line, index) => {
+            return (
+              <div key={line + index} className="mb-2">
+                <div className="text-lg">
+                  {isReversed ? line : translatedLyricsSplit[index]}
+                </div>
+                {displayMode === "1" && (
                   <div className="text-base text-gray-400">
                     {isReversed ? translatedLyricsSplit[index] : line}
                   </div>
+                )}
+              </div>
+            );
+          })}
+        {displayMode === "2" &&
+          lyricsSplit.map((line, index) => {
+            return (
+              <div
+                key={line + index}
+                className="flex justify-between gap-4 divide-x-2 divide-indigo-400"
+              >
+                <div className="w-1/2 pb-2 text-lg">
+                  {isReversed ? line : translatedLyricsSplit[index]}
                 </div>
-              );
-            })
-          : lyricsSplit.map((line, index) => {
-              return (
-                <div
-                  key={line + index}
-                  className="flex justify-between gap-4 divide-x-2 divide-indigo-400"
-                >
-                  <div className="w-1/2 pb-2 text-lg">
-                    {isReversed ? line : translatedLyricsSplit[index]}
-                  </div>
-                  <div className="w-1/2 pb-2 pl-6 text-lg">
-                    {isReversed ? translatedLyricsSplit[index] : line}
-                  </div>
+                <div className="w-1/2 pb-2 pl-6 text-lg">
+                  {isReversed ? translatedLyricsSplit[index] : line}
                 </div>
-              );
-            })}
+              </div>
+            );
+          })}
       </div>
     </div>
   );
@@ -83,10 +88,10 @@ export const LyricsSkeleton = ({
   return (
     <div
       className={`${alignClass} ${
-        displayMode === "1" ? "max-w-[500px]" : "w-full"
+        displayMode === "1" || displayMode === "3" ? "max-w-[500px]" : "w-full"
       }`}
     >
-      {displayMode === "1" ? (
+      {displayMode === "1" && (
         <div>
           {Array.from({ length: 20 }, (_, i) => i).map((i) => (
             <div key={i} className="mb-1">
@@ -95,7 +100,8 @@ export const LyricsSkeleton = ({
             </div>
           ))}
         </div>
-      ) : (
+      )}
+      {displayMode === "2" && (
         <div>
           {Array.from({ length: 20 }, (_, i) => i).map((i) => (
             <div
@@ -113,6 +119,15 @@ export const LyricsSkeleton = ({
                   <Skeleton width="100%" height={20} />
                 </div>
               </div>
+            </div>
+          ))}
+        </div>
+      )}
+      {displayMode === "3" && (
+        <div>
+          {Array.from({ length: 20 }, (_, i) => i).map((i) => (
+            <div key={i} className="mb-1">
+              <Skeleton height={20} />
             </div>
           ))}
         </div>
