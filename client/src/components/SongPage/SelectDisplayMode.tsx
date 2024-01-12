@@ -41,7 +41,7 @@ const SelectDisplayMode = ({
       >
         <button
           onClick={() => changeDisplayMode("1")}
-          className="w-full pb-2 pt-3 hover:bg-indigo-700"
+          className="w-full pb-3 pt-3 hover:bg-indigo-700"
         >
           <div className="px-2">
             <span className="mb-1 block h-1 bg-gray-400"></span>
@@ -51,12 +51,19 @@ const SelectDisplayMode = ({
 
         <button
           onClick={() => changeDisplayMode("2")}
-          className="w-full pb-2 pt-3 hover:bg-indigo-700"
+          className="w-full pb-2 pt-4 hover:bg-indigo-700"
         >
           <div className="flex justify-between gap-2 px-2">
             <span className="mb-1 block h-1 w-1/2 bg-gray-400"></span>
             <span className="block h-1 w-1/2 bg-gray-400"></span>
           </div>
+        </button>
+
+        <button
+          onClick={() => changeDisplayMode("3")}
+          className="w-full px-2 pb-3 pt-4 hover:bg-indigo-700"
+        >
+          <span className="block h-1 bg-gray-400"></span>
         </button>
       </div>
     </div>
