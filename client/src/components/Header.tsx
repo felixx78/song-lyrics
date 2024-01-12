@@ -9,12 +9,14 @@ function Header() {
       style={{
         background: "linear-gradient(90deg, #835EF9, #6C7FF6 49%, #53A1F3)",
       }}
-      className="flex items-center justify-between px-8 py-4 text-xl font-bold"
+      className="flex items-center justify-between px-8 py-4"
     >
-      <Link to="/">Song Lyrics</Link>
+      <Link to="/" className="text-xl font-bold">
+        Song Lyrics
+      </Link>
 
       {location.pathname !== "/" && (
-        <div className="hidden sm:block">
+        <div className="hidden text-lg sm:block">
           <SongSearch />
         </div>
       )}
