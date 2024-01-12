@@ -11,7 +11,7 @@ function Header() {
       }}
       className="flex items-center justify-between px-8 py-4 text-xl font-bold"
     >
-      <Link to="/">Songs Lyrics</Link>
+      <Link to="/">Song Lyrics</Link>
 
       {location.pathname !== "/" && (
         <div className="hidden sm:block">
