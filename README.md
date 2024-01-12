@@ -1,10 +1,10 @@
-# Songs lyrics
+# Song lyrics
 
-Songs lyrics is website for translating lyrics from Genius
+Song lyrics is website for translating lyrics from Genius
 
 ## Demo
 
-[Songs Lyrics](https://songslyrics.vercel.app)
+[Song Lyrics](https://songslyrics.vercel.app)
 
 ## Tech Stack
 
@@ -57,5 +57,5 @@ Go to [Genius API](https://genius.com/api-clients) create api key and add
 Run server
 
 ```bash
-  go run main.go 
+  go run main.go
 ```
