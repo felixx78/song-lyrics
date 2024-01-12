@@ -52,7 +52,7 @@ const Lyrics = ({
             return (
               <div
                 key={line + index}
-                className="flex justify-between gap-4 divide-x-2 divide-indigo-400"
+                className="flex justify-between gap-4 divide-x-2 divide-indigo-500"
               >
                 <div className="w-1/2 pb-2 text-lg">
                   {isReversed ? line : translatedLyricsSplit[index]}
