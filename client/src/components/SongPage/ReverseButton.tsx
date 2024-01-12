@@ -15,7 +15,7 @@ function ReverseButton({
       onClick={handleReverse}
       className={`${
         isReversed ? "border-indigo-600" : "border-indigo-500"
-      } w-[135px] rounded-md border-2 py-1 text-center`}
+      } w-[130px] rounded-md border-2 py-1 text-center`}
     >
       {isReversed ? "Reversed" : "Reverse"}
     </button>
