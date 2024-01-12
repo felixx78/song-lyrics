@@ -10,23 +10,14 @@ function ReverseButton({
     localStorage.setItem("isReversed", JSON.stringify(!isReversed));
   };
 
-  if (isReversed) {
-    return (
-      <button
-        onClick={handleReverse}
-        className="rounded-md bg-indigo-600 px-8 py-1"
-      >
-        Reversed
-      </button>
-    );
-  }
-
   return (
     <button
       onClick={handleReverse}
-      className="rounded-md bg-indigo-500 px-9 py-1"
+      className={`${
+        isReversed ? "border-indigo-600" : "border-indigo-500"
+      } w-[135px] rounded-md border-2 py-1 text-center`}
     >
-      Reverse
+      {isReversed ? "Reversed" : "Reverse"}
     </button>
   );
 }
