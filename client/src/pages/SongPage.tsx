@@ -106,7 +106,7 @@ function SongPage() {
               <div className="mb-2 text-3xl font-bold">{song.title}</div>
               <Link
                 to={`/artist/${song.primary_artist.id}`}
-                className="inline-block hover:underline"
+                className="underline"
               >
                 {song.primary_artist.name}
               </Link>
@@ -119,7 +119,7 @@ function SongPage() {
                       <Link
                         key={artist.id}
                         to={`artist/${artist.id}`}
-                        className="hover:underline"
+                        className="underline"
                       >
                         {artist.name +
                           (song.featured_artists.length - 1 === index
@@ -134,14 +134,14 @@ function SongPage() {
               {song.album && (
                 <div className="mb-2">
                   Album:{" "}
-                  <Link className="hover:underline" to={albumLink!}>
+                  <Link className="underline" to={albumLink!}>
                     {song.album.name}
                   </Link>
                 </div>
               )}
 
               <div className="mb-2">
-                <Link target="_blank" to={song.url} className="hover:underline">
+                <Link target="_blank" to={song.url} className="underline">
                   Genius Page
                 </Link>
               </div>
