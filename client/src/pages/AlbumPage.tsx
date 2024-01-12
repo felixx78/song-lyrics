@@ -53,12 +53,15 @@ function AlbumPage() {
           />
           <h1 className="mb-4 text-center text-2xl">
             {data.title}
-            <Link to={`/artist/${data.artist_id}`}> by {data.artist}</Link>
+            <Link to={`/artist/${data.artist_id}`}>
+              {" "}
+              by <span className="underline">{data.artist}</span>
+            </Link>
           </h1>
-          <div className="divide-y-2 divide-indigo-400 text-lg">
+          <div className="divide-y-2 divide-indigo-600 border-2 border-indigo-600 text-lg">
             {data.songs.map((song, i) => (
               <Link
-                className="block bg-indigo-600 p-2 hover:bg-indigo-400"
+                className="block  p-2 hover:bg-indigo-600"
                 to={`/song/${song.id}`}
                 key={song.id}
               >
