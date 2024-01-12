@@ -67,38 +67,45 @@ function SelectLanguage({
     }
   }, [focusedLanguageIndex, focusedLanguages]);
 
+  const toggleMenu = () => {
+    setIsOpened(!isOpened);
+    setFocusedLanguages([]);
+  };
+
   if (languages) {
     return (
       <div className="relative">
         <button
           onKeyDown={(e) => isOpened && onKeyDown(e)}
           ref={refButton}
-          onClick={() => setIsOpened(!isOpened)}
-          className="rounded-md bg-indigo-500 px-10 py-1 outline-none active:bg-indigo-600"
+          onClick={toggleMenu}
+          className="rounded-md border-2 border-indigo-500 px-10 py-1 outline-none"
         >
           {Object.entries(languages).find(([_, code]) => code === value)?.[0]}
         </button>
-        {isOpened && (
-          <div className="absolute left-0 top-[105%] z-20 max-h-[300px] w-full divide-y-2 divide-indigo-400 overflow-scroll overflow-x-hidden rounded border-2 border-indigo-400 bg-indigo-500">
-            {Object.entries(languages).map(([language, code]) => (
-              <button
-                onClick={() => changeLanguage(language)}
-                className={`flex w-full items-center justify-between px-1 py-2 outline-none hover:bg-indigo-600 ${
-                  code === focusedLanguages[focusedLanguageIndex]?.[1] &&
-                  "bg-indigo-600"
-                }`}
-                key={code}
-                ref={
-                  code === focusedLanguages[focusedLanguageIndex]?.[1]
-                    ? focusedLanguageRef
-                    : null
-                }
-              >
-                {language}
-              </button>
-            ))}
-          </div>
-        )}
+        <div
+          className={`${
+            isOpened ? "top-[110%]" : "invisible top-3/4 opacity-0"
+          } absolute left-0 z-20 max-h-[300px] w-full divide-y-2 divide-indigo-500 overflow-scroll overflow-x-hidden rounded border-2 border-indigo-500 bg-indigo-600 transition-all`}
+        >
+          {Object.entries(languages).map(([language, code]) => (
+            <button
+              onClick={() => changeLanguage(language)}
+              className={`flex w-full items-center justify-between px-1 py-2 outline-none hover:bg-indigo-700 ${
+                code === focusedLanguages[focusedLanguageIndex]?.[1] &&
+                "bg-indigo-700"
+              }`}
+              key={code}
+              ref={
+                code === focusedLanguages[focusedLanguageIndex]?.[1]
+                  ? focusedLanguageRef
+                  : null
+              }
+            >
+              {language}
+            </button>
+          ))}
+        </div>
       </div>
     );
   }
