@@ -86,7 +86,7 @@ function SelectLanguage({
         <div
           className={`${
             isOpened ? "top-[110%]" : "invisible top-3/4 opacity-0"
-          } absolute left-0 z-20 max-h-[300px] w-full divide-y-2 divide-indigo-500 overflow-scroll overflow-x-hidden rounded border-2 border-indigo-500 bg-indigo-600 transition-all`}
+          } absolute left-0 z-20 max-h-[300px] w-full divide-y-2 divide-indigo-500 overflow-scroll overflow-x-hidden rounded border-2 border-indigo-500 bg-[#35335C] transition-all`}
         >
           {Object.entries(languages).map(([language, code]) => (
             <button
