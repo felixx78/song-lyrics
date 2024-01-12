@@ -33,7 +33,7 @@ const SelectAlign = ({ onChange }: { onChange: (align: string) => void }) => {
       <div
         className={`${
           isOpened ? "top-[110%]" : "invisible top-3/4 opacity-0"
-        } absolute left-0 z-20 w-full divide-y-2 divide-indigo-500 rounded border-2 border-indigo-500 transition-all`}
+        } absolute left-0 z-20 w-full divide-y-2 divide-indigo-500 rounded border-2 border-indigo-500 bg-[#35335C] transition-all`}
       >
         {["Left", "Center", "Right"].map((i) => (
           <button
