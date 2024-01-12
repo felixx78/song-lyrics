@@ -26,23 +26,25 @@ const SelectAlign = ({ onChange }: { onChange: (align: string) => void }) => {
       <button
         ref={refButton}
         onClick={() => setIsOpened(!isOpened)}
-        className="rounded-md bg-indigo-500 px-8 py-1 active:bg-indigo-600"
+        className="rounded-md border-2 border-indigo-500 px-8 py-1"
       >
         Align
       </button>
-      {isOpened && (
-        <div className="absolute left-0 top-[105%] z-20 w-full divide-y-2 divide-indigo-400 rounded border-2 border-indigo-400 bg-indigo-500">
-          {["Left", "Center", "Right"].map((i) => (
-            <button
-              onClick={() => changeAlign(i)}
-              className="flex w-full items-center justify-between  px-1 py-2 "
-              key={i}
-            >
-              {i}
-            </button>
-          ))}
-        </div>
-      )}
+      <div
+        className={`${
+          isOpened ? "top-[110%]" : "invisible top-3/4 opacity-0"
+        } absolute left-0 z-20 w-full divide-y-2 divide-indigo-500 rounded border-2 border-indigo-500 bg-indigo-600 transition-all`}
+      >
+        {["Left", "Center", "Right"].map((i) => (
+          <button
+            onClick={() => changeAlign(i)}
+            className="flex w-full items-center justify-between px-1 py-2 hover:bg-indigo-700 "
+            key={i}
+          >
+            {i}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
