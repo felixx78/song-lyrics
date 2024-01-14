@@ -25,7 +25,7 @@ func main(){
   r.HandleFunc("/artists/{id}", handlers.ArtistById)
 
   headersOk := gorrilaHandlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
-  originsOk := gorrilaHandlers.AllowedOrigins([]string{"https://songslyrics.vercel.app", "http://localhost:5173"})
+  originsOk := gorrilaHandlers.AllowedOrigins([]string{"https://song-lyrics.org" , "https://songslyrics.vercel.app", "http://localhost:5173"})
 	methodsOk := gorrilaHandlers.AllowedMethods([]string{"GET"})
 
 	corsRouter := gorrilaHandlers.CORS(headersOk, originsOk, methodsOk)(r)
