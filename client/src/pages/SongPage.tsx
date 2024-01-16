@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchLanguages, fetchLyrics, fetchSong } from "../api/songs";
 import Lyrics, { LyricsSkeleton } from "../components/SongPage/Lyrics";
@@ -9,6 +9,7 @@ import SelectAlign from "../components/SongPage/SelectAlign";
 import ReverseButton from "../components/SongPage/ReverseButton";
 import SelectLanguage from "../components/SongPage/SelectLanguage";
 import Skeleton from "react-loading-skeleton";
+import { Song } from "../lib/definitons";
 
 function SongPage() {
   const { id } = useParams();
@@ -42,6 +43,20 @@ function SongPage() {
     queryKey: ["lyrics", song?.url || "", selectedLanguage],
     queryFn: fetchLyrics,
   });
+
+  useEffect(() => {
+    if (!song) return;
+
+    const lastSongsRaw = localStorage.getItem("lastSongs");
+    let lastSongs: Song[] = lastSongsRaw ? JSON.parse(lastSongsRaw) : [];
+
+    lastSongs = lastSongs.filter((i) => i.id !== song.id);
+    lastSongs = lastSongs.length > 9 ? lastSongs.slice(0, 9) : lastSongs;
+
+    const newLastSongs = [song, ...lastSongs];
+
+    localStorage.setItem("lastSongs", JSON.stringify(newLastSongs));
+  }, [id, song]);
 
   if (isError) {
     return <div className="pt-4 text-center text-2xl">Song Not Found</div>;
