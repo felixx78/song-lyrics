@@ -101,6 +101,7 @@ function SongSearch({ py = "1" }: { py?: string }) {
                 />
               ))
             : !isHintsLoading &&
+              !query &&
               lastSongs.map((song, i) => (
                 <HintButton
                   key={song.id}
