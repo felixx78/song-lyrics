@@ -6,12 +6,7 @@ function SongCard({ song }: { song: Song }) {
   return (
     <Link to={`/song/${song.id}`} className="nav-link block w-[300px]">
       <div className="mb-2 h-[300px] overflow-hidden rounded-md bg-[#7b69f8]">
-        <img
-          width={300}
-          loading="lazy"
-          src={song.song_art_image_thumbnail_url}
-          alt=""
-        />
+        <img width={300} loading="lazy" src={song.song_art_image_url} alt="" />
       </div>
 
       <div className="truncate text-xl font-bold">{song.title}</div>
