@@ -128,7 +128,7 @@ function SongPage() {
                     {song.featured_artists.map((artist, index) => (
                       <Link
                         key={artist.id}
-                        to={`artist/${artist.id}`}
+                        to={`/artist/${artist.id}`}
                         className="underline"
                       >
                         {artist.name +
