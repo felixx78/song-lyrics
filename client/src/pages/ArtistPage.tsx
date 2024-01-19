@@ -52,7 +52,7 @@ function ArtistPage() {
           <img
             src={artist.image_url}
             alt=""
-            className="mb-2 w-[288px] rounded-full"
+            className="mb-2 h-[288px] w-[288px] rounded-full"
           />
 
           <Link
