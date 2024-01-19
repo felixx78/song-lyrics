@@ -110,12 +110,7 @@ function SongPage() {
       <div className="container py-10">
         {/* header */}
         <div className="mb-4 flex flex-col items-center gap-8 border-b-2 border-indigo-500 pb-5 md:flex-row md:items-start md:border-0 md:pb-0">
-          <img
-            height={300}
-            width={300}
-            src={song.song_art_image_thumbnail_url}
-            alt=""
-          />
+          <img height={300} width={300} src={song.song_art_image_url} alt="" />
           <div className="flex flex-col md:min-h-[300px]">
             <div className="flex-1">
               <div className="mb-2 text-3xl font-bold">{song.title}</div>
