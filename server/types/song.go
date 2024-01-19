@@ -47,6 +47,7 @@ type Song struct {
 	PrimaryArtist           PrimaryArtist   `json:"primary_artist"`
 	FeaturedArtists         []FeaturedArtist `json:"featured_artists"`
 	ReleaseDateForDisplay   string          `json:"release_date_for_display"`
-	SongArtThumbnailURL string          `json:"song_art_image_thumbnail_url"`
+	SongArtThumbnailURL     string          `json:"song_art_image_thumbnail_url"`
+	SongArtImageURL         string          `json:"song_art_image_url"`
 	Album                   *Album          `json:"album,omitempty"`
 }
