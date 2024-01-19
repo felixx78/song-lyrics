@@ -12,6 +12,7 @@ export type Song = {
   }[];
   release_date_for_display: string;
   song_art_image_thumbnail_url: string;
+  song_art_image_url: string;
   album?: {
     id: number;
     name: string;
