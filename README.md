@@ -4,7 +4,7 @@ Song lyrics is website for translating lyrics from Genius
 
 ## Demo
 
-[Song Lyrics](https://www.song-lyrics.org)
+[Song Lyrics](https://song-lyrics.org)
 
 ## Tech Stack
 
