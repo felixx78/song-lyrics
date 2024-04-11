@@ -7,8 +7,11 @@ function SongCard({ song }: { song: Song }) {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   return (
-    <Link to={`/song/${song.id}`} className="nav-link block w-[300px]">
-      <div className="mb-2 h-[300px] overflow-hidden rounded-md border border-[#7b69f8]">
+    <div className="w-[300px]">
+      <Link
+        to={`/song/${song.id}`}
+        className="mb-2 block h-[300px] overflow-hidden rounded-md border border-[#7b69f8]"
+      >
         <img
           onLoad={() => setIsImageLoaded(true)}
           width={isImageLoaded ? 300 : 0}
@@ -16,7 +19,7 @@ function SongCard({ song }: { song: Song }) {
           alt=""
         />
         {!isImageLoaded && <Skeleton width={300} height={300} />}
-      </div>
+      </Link>
 
       <div className="truncate text-xl font-bold">{song.title}</div>
 
@@ -47,7 +50,7 @@ function SongCard({ song }: { song: Song }) {
       <div className="text-right text-gray-400">
         {song.release_date_for_display}
       </div>
-    </Link>
+    </div>
   );
 }
 export default SongCard;
