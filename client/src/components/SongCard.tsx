@@ -1,12 +1,21 @@
 import { Link } from "react-router-dom";
 import { Song } from "../lib/definitons";
 import Skeleton from "react-loading-skeleton";
+import { useState } from "react";
 
 function SongCard({ song }: { song: Song }) {
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
   return (
     <Link to={`/song/${song.id}`} className="nav-link block w-[300px]">
-      <div className="mb-2 h-[300px] overflow-hidden rounded-md bg-[#7b69f8]">
-        <img width={300} loading="lazy" src={song.song_art_image_url} alt="" />
+      <div className="mb-2 h-[300px] overflow-hidden rounded-md border border-[#7b69f8]">
+        <img
+          onLoad={() => setIsImageLoaded(true)}
+          width={isImageLoaded ? 300 : 0}
+          src={song.song_art_image_url}
+          alt=""
+        />
+        {!isImageLoaded && <Skeleton width={300} height={300} />}
       </div>
 
       <div className="truncate text-xl font-bold">{song.title}</div>
@@ -46,7 +55,11 @@ export default SongCard;
 export const SongCardSkeleton = () => {
   return (
     <div className="w-[300px]">
-      <Skeleton className="mb-1" width={300} height={300} />
+      <Skeleton
+        className="mb-1 border border-[#7b69f8]"
+        width={300}
+        height={300}
+      />
 
       <Skeleton className="mb-1" width={100} height={20} />
       <Skeleton width={120} height={20} />
