@@ -7,7 +7,8 @@ function SearchPage() {
   const location = useLocation();
   const query = new URLSearchParams(location.search).get("q") || "";
 
-  const { data, isLoading, hasNextPage, nextPage } = useInfinitySongs(query);
+  const { data, isLoading, hasNextPage, nextPage, page } =
+    useInfinitySongs(query);
 
   const intObserver = useRef<IntersectionObserver | null>(null);
   const lastSongCard = useCallback(
@@ -28,7 +29,6 @@ function SearchPage() {
   return (
     <div className="container pb-8 pt-4">
       <h1 className="mb-4 text-2xl sm:text-4xl">
-        {!isLoading && data.length === 0 && !intObserver.current ? "No" : ""}{" "}
         Results for "{query.trim()}"
       </h1>
 
@@ -48,11 +48,16 @@ function SearchPage() {
           return null;
         })}
 
-        {(isLoading || !data.length || !intObserver.current) &&
+        {isLoading &&
           Array.from({ length: 8 }).map((_, index) => (
             <SongCardSkeleton key={index} />
           ))}
       </div>
+      {!isLoading && page === 1 && !hasNextPage && (
+        <div className="flex h-[70vh] w-full items-center justify-center text-center text-2xl">
+          No Songs
+        </div>
+      )}
     </div>
   );
 }

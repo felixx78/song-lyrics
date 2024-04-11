@@ -42,6 +42,6 @@ function useInfinitySongs(query: string) {
     setTimeout(() => setIsLoading(false), 1000);
   }, [query]);
 
-  return { data, hasNextPage, isLoading, nextPage };
+  return { data, hasNextPage, isLoading, nextPage, page };
 }
 export default useInfinitySongs;
