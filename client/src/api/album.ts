@@ -1,11 +1,7 @@
-import { getApiUrl } from "../lib/getApiUrl";
-
-const apiUrl = getApiUrl();
-
 export const fetchAlbum = async ({ queryKey }: any) => {
   const [_, artistName, title] = queryKey;
 
-  const response = await fetch(`${apiUrl}/api/album/${artistName}/${title}`);
+  const response = await fetch(`/api/album/${artistName}/${title}`);
 
   const data = await response.json();
 
