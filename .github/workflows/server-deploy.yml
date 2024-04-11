@@ -20,6 +20,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
+            docker stop $(docker ps -a -q) 
             cd Songlyrics
             git pull
 
