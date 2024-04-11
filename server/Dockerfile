@@ -6,9 +6,9 @@ COPY go.mod go.sum ./
 
 RUN go mod download
 
-COPY . .
-
 RUN go build -tags netgo -ldflags '-s -w' -o app
+
+COPY . .
 
 EXPOSE 8080
 
