@@ -6,10 +6,10 @@ COPY go.mod go.sum ./
 
 RUN go mod download
 
-RUN go build -tags netgo -ldflags '-s -w' -o app
-
 COPY . .
+
+RUN go build .
 
 EXPOSE 8080
 
-CMD ["./app"]
+CMD ["./songslyrics"]
