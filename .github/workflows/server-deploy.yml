@@ -20,7 +20,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
-            cd SongLyrics
+            cd Songlyrics
             git pull
 
       - name: Building and Deploy
