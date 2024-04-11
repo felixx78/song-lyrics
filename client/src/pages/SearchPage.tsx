@@ -1,14 +1,22 @@
 import { useLocation } from "react-router-dom";
 import SongCard, { SongCardSkeleton } from "../components/SongCard";
 import useInfinitySongs from "../hooks/useInfinitySongs";
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 function SearchPage() {
   const location = useLocation();
   const query = new URLSearchParams(location.search).get("q") || "";
 
+  const [hasFirstPageLoaded, setHasFirstPageLoaded] = useState(false);
   const { data, isLoading, hasNextPage, nextPage, page } =
     useInfinitySongs(query);
+
+  useEffect(() => setHasFirstPageLoaded(false), [query]);
+  useEffect(() => {
+    if (page >= 1 && !isLoading) {
+      setHasFirstPageLoaded(true);
+    }
+  }, [page, isLoading]);
 
   const intObserver = useRef<IntersectionObserver | null>(null);
   const lastSongCard = useCallback(
@@ -48,12 +56,12 @@ function SearchPage() {
           return null;
         })}
 
-        {isLoading &&
+        {hasFirstPageLoaded &&
           Array.from({ length: 8 }).map((_, index) => (
             <SongCardSkeleton key={index} />
           ))}
       </div>
-      {!isLoading && page === 1 && !hasNextPage && (
+      {hasFirstPageLoaded && !hasNextPage && (
         <div className="flex h-[70vh] w-full items-center justify-center text-center text-2xl">
           No Songs
         </div>
