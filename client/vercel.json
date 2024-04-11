@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path(.*)",
-      "destination": "https://songlyrics-v58f.onrender.com/api/:path"
+      "destination": "http://api.song-lyrics.org/api/:path"
     },
     { "source": "/(.*)", "destination": "/" }
   ]
