@@ -6,9 +6,9 @@ COPY go.mod go.sum ./
 
 RUN go mod download
 
-RUN go build .
-
 COPY . .
+
+RUN go build .
 
 EXPOSE 8080
 
