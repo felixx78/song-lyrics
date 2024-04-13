@@ -28,14 +28,19 @@ func LyricsByUrl(w http.ResponseWriter, r *http.Request){
   resp, err := http.Get(url)
   if err != nil {
     fmt.Println(err)
-    http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+    http.Error(w, "Error fetching url", http.StatusBadRequest)
     return
   }
   defer resp.Body.Close()
 
-  doc, _ := goquery.NewDocumentFromResponse(resp) 
+  doc, err := goquery.NewDocumentFromReader(resp.Body) 
+  if err != nil {
+    fmt.Println(err)
+    http.Error(w, "Failed reading html from url", http.StatusBadRequest)
+    return
+  }
 
-  preloadedState := ""
+  var preloadedState string
   doc.Find("script").Each(func(i int, s *goquery.Selection) {
     if strings.Contains(s.Text(), "window.__PRELOADED_STATE__") {
       preloadedState = strings.TrimPrefix(s.Text(), "window.__PRELOADED_STATE__ = ")
