@@ -8,9 +8,9 @@ import (
 	"regexp"
 	"strings"
 
-	cloudflarebp "github.com/DaRealFreak/cloudflare-bp-go"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/bregydoc/gtranslate"
+	scraper "github.com/cardigann/go-cloudflare-scraper"
 )
 
 type LyricsByUrlResponse struct{
@@ -25,8 +25,8 @@ func LyricsByUrl(w http.ResponseWriter, r *http.Request){
   url := queryParams.Get("url")
 
   // getting lyrics
-  client := &http.Client{}
-  client.Transport = cloudflarebp.AddCloudFlareByPass(client.Transport)
+  scraper, _ := scraper.NewTransport(http.DefaultTransport)
+  client := http.Client{Transport: scraper}
 
   resp, err := client.Get(url)
   if err != nil {
