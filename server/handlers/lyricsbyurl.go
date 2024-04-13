@@ -8,6 +8,7 @@ import (
 	"regexp"
 	"strings"
 
+	cloudflarebp "github.com/DaRealFreak/cloudflare-bp-go"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/bregydoc/gtranslate"
 )
@@ -24,8 +25,10 @@ func LyricsByUrl(w http.ResponseWriter, r *http.Request){
   url := queryParams.Get("url")
 
   // getting lyrics
+  client := &http.Client{}
+  client.Transport = cloudflarebp.AddCloudFlareByPass(client.Transport)
 
-  resp, err := http.Get(url)
+  resp, err := client.Get(url)
   if err != nil {
     fmt.Println(err)
     http.Error(w, "Error fetching url", http.StatusBadRequest)

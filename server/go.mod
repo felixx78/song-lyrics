@@ -3,6 +3,8 @@ module songslyrics
 go 1.21.4
 
 require (
+	github.com/DaRealFreak/cloudflare-bp-go v1.0.4 // indirect
+	github.com/EDDYCJY/fake-useragent v0.2.0 // indirect
 	github.com/PuerkitoBio/goquery v1.8.1 // indirect
 	github.com/andybalholm/cascadia v1.3.1 // indirect
 	github.com/bregydoc/gtranslate v0.0.0-20200913051839-1bd07f6c1fc5 // indirect
