@@ -66,6 +66,8 @@ func LyricsByUrl(w http.ResponseWriter, r *http.Request){
   translatedLyrics, err := gtranslate.TranslateWithParams(lyrics, gtranslate.TranslationParams{From: "auto", To: toLanguage})
   if err != nil{
     fmt.Println(err)
+    http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+    return
   }
 
   response := LyricsByUrlResponse{
