@@ -17,7 +17,7 @@ Song lyrics is website for translating lyrics from Genius
 Clone the project
 
 ```bash
-  git clone https://github.com/v1st78/Songlyrics
+  git clone https://github.com/finn78/Songlyrics
 ```
 
 Go to the project directory
