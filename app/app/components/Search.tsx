@@ -31,11 +31,12 @@ function Search({ size }: Props) {
 
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
+  const [recentViewed, setRecentViewed] = useState<Song[]>([]);
 
-  const storedRecentViewed = localStorage.getItem("recent-viewed");
-  const recentViewed: Song[] = storedRecentViewed
-    ? JSON.parse(storedRecentViewed)
-    : [];
+  useEffect(() => {
+    const storedRecentViewed = localStorage.getItem("recent-viewed");
+    if (storedRecentViewed) setRecentViewed(JSON.parse(storedRecentViewed));
+  }, []);
 
   const { data } = useQuery({
     queryKey: ["search", value],
@@ -43,6 +44,8 @@ function Search({ size }: Props) {
       axios.get(`/api/search?q=${value}`).then((r) => r.data as Song[]),
     enabled: !!value,
   });
+
+  const dataToDisplay = value === "" ? recentViewed : data;
 
   useEffect(() => {
     const handleClick = (e: globalThis.MouseEvent) => {
@@ -73,23 +76,24 @@ function Search({ size }: Props) {
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (!data) return;
+    if (!dataToDisplay) return;
 
     if (e.code === "Enter" && highlightedIndex !== null) {
-      router.push(`/song/${data[highlightedIndex].id}`);
+      router.push(`/song/${dataToDisplay[highlightedIndex].id}`);
       handleLinkClick();
     } else if (e.code === "ArrowDown") {
-      if (highlightedIndex === null || highlightedIndex + 1 === data.length) {
+      if (
+        highlightedIndex === null ||
+        highlightedIndex + 1 === dataToDisplay.length
+      ) {
         setHighlightedIndex(0);
       } else setHighlightedIndex(highlightedIndex + 1);
     } else if (e.code === "ArrowUp") {
       if (highlightedIndex === null || highlightedIndex - 1 === -1) {
-        setHighlightedIndex(data.length - 1);
+        setHighlightedIndex(dataToDisplay.length - 1);
       } else setHighlightedIndex(highlightedIndex - 1);
     }
   };
-
-  const dataToDisplay = value === "" ? recentViewed : data;
 
   return (
     <div
