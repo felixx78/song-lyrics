@@ -1,6 +1,13 @@
 "use client";
 
-import { KeyboardEvent, MouseEvent, useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  MouseEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useDebounce } from "use-debounce";
 import MangifyingGlass from "../icons/MangifyingGlass";
 import { useQuery } from "@tanstack/react-query";
@@ -46,6 +53,11 @@ function Search({ size }: Props) {
     };
   }, [ref]);
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value);
+    setHighlightedIndex(null);
+  };
+
   const handleLinkClick = (e?: MouseEvent<HTMLAnchorElement>) => {
     setTimeout(() => {
       setText("");
@@ -83,7 +95,7 @@ function Search({ size }: Props) {
       <div className="relative">
         <input
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={handleChange}
           className="bg-black border placeholder-gray-400 border-gray-600 text-gray-200 pl-3 pr-9 py-1.5 rounded-md w-full"
           spellCheck={false}
           placeholder="search"
