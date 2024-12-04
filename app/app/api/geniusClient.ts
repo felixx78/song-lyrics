@@ -6,7 +6,6 @@ const geniusClient = axios.create({
 
 geniusClient.interceptors.request.use((config) => {
   config.params = { ...config.params, access_token: process.env.GENIUS_SECRET };
-  console.log(config.params);
   return config;
 });
 
