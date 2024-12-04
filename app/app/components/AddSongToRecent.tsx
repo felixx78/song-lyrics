@@ -12,7 +12,7 @@ function AddSongToRecent({ data }: { data: Song }) {
 
     localStorage.setItem(
       "recent-viewed",
-      JSON.stringify([data, ...recentViewed.filter((i) => i.id === data.id)])
+      JSON.stringify([data, ...recentViewed.filter((i) => i.id !== data.id)])
     );
   }, [data.id]);
   return null;
