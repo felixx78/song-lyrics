@@ -32,6 +32,11 @@ function Search({ size }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
 
+  const storedRecentViewed = localStorage.getItem("recent-viewed");
+  const recentViewed: Song[] = storedRecentViewed
+    ? JSON.parse(storedRecentViewed)
+    : [];
+
   const { data } = useQuery({
     queryKey: ["search", value],
     queryFn: () =>
@@ -84,6 +89,8 @@ function Search({ size }: Props) {
     }
   };
 
+  const dataToDisplay = value === "" ? recentViewed : data;
+
   return (
     <div
       ref={ref}
@@ -106,9 +113,9 @@ function Search({ size }: Props) {
         <MangifyingGlass className="text-gray-400 absolute right-2 top-1/2 -translate-y-1/2" />
       </div>
 
-      {isOpen && !!data?.length && (
+      {isOpen && !!dataToDisplay?.length && (
         <div className="bg-black border absolute w-full divide-y divide-gray-600 rounded-md border-gray-600 top-[120%]">
-          {data.map((i, index) => (
+          {dataToDisplay.map((i, index) => (
             <Link
               href={`/song/${i.id}`}
               onClick={handleLinkClick}
