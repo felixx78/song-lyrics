@@ -70,7 +70,7 @@ function Search({ size }: Props) {
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (!data) return;
 
-    if (e.code === "Enter" && highlightedIndex) {
+    if (e.code === "Enter" && highlightedIndex !== null) {
       router.push(`/song/${data[highlightedIndex].id}`);
       handleLinkClick();
     } else if (e.code === "ArrowDown") {
