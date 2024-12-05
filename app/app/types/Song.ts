@@ -8,7 +8,8 @@ type Song = {
   featured_artists: Artist[];
   song_art_image_thumbnail_url: string;
   song_art_image_url: string;
-  album: string;
+  album: { name: string } | null;
+  release_date_for_display: string;
 };
 
 export default Song;
