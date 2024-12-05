@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@iamtraction/google-translate": "^2.0.1",
     "@tanstack/react-query": "^5.62.2",
     "axios": "^1.7.9",
     "clsx": "^2.1.1",
