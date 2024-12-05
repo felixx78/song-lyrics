@@ -32,7 +32,7 @@ function Select({ label, value, onChange, options }: Props) {
   }, [ref]);
 
   const handleChange = (i: (typeof options)[0]) => {
-    onChange(i);
+    onChange(i.value);
     setSelected(i);
   };
 
