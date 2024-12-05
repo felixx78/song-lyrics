@@ -4,7 +4,7 @@ import getLocalstorageItem from "../helpers/getLocalstorageItem";
 
 const useSettingsStore = create<Settings>((set) => ({
   alignment: getLocalstorageItem<Aligment>("aligment", "left"),
-  showOriginalFirst: getLocalstorageItem("showOriginalFirst", true),
+  showOriginalFirst: getLocalstorageItem("showOriginalFirst", false),
   fontSize: getLocalstorageItem<FontSize>("fontSize", "medium"),
 
   setAlignment: (alignment: Aligment) => {
