@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  ChangeEvent,
-  KeyboardEvent,
-  MouseEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import { useDebounce } from "use-debounce";
 import MangifyingGlass from "../icons/MangifyingGlass";
 import { useQuery } from "@tanstack/react-query";
@@ -19,6 +12,11 @@ import { useRouter } from "next/navigation";
 
 type Props = {
   size: "md" | "lg";
+};
+
+const handleSearch = async (q: string) => {
+  const response = await axios.get(`/api/search?q=${q}`);
+  return response.data as Song[];
 };
 
 function Search({ size }: Props) {
@@ -40,8 +38,7 @@ function Search({ size }: Props) {
 
   const { data } = useQuery({
     queryKey: ["search", value],
-    queryFn: () =>
-      axios.get(`/api/search?q=${value}`).then((r) => r.data as Song[]),
+    queryFn: () => handleSearch(value),
     enabled: !!value,
   });
 
