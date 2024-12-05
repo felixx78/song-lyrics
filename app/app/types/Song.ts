@@ -10,6 +10,7 @@ type Song = {
   song_art_image_url: string;
   album: { name: string } | null;
   release_date_for_display: string;
+  url: string;
 };
 
 export default Song;
