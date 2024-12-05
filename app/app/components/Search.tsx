@@ -66,13 +66,11 @@ function Search({ size }: Props) {
     setHighlightedIndex(null);
   };
 
-  const handleLinkClick = (e?: MouseEvent<HTMLAnchorElement>) => {
-    setTimeout(() => {
-      setText("");
-      setValue("");
-      setHighlightedIndex(null);
-      setIsOpen(false);
-    }, 100);
+  const handleLinkClick = () => {
+    setText("");
+    setValue("");
+    setHighlightedIndex(null);
+    setIsOpen(false);
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
