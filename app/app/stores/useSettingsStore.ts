@@ -1,12 +1,11 @@
 import { create } from "zustand";
 import Settings, { Aligment, FontSize } from "../types/Settings";
+import getLocalstorageItem from "../helpers/getLocalstorageItem";
 
 const useSettingsStore = create<Settings>((set) => ({
-  alignment: (localStorage.getItem("aligment") || "left") as Aligment,
-  showOriginalFirst: JSON.parse(
-    localStorage.getItem("showOriginalFirst") || "true"
-  ),
-  fontSize: (localStorage.getItem("fontSize") || "medium") as FontSize,
+  alignment: getLocalstorageItem<Aligment>("aligment", "left"),
+  showOriginalFirst: getLocalstorageItem("showOriginalFirst", true),
+  fontSize: getLocalstorageItem<FontSize>("fontSize", "medium"),
 
   setAlignment: (alignment: Aligment) => {
     set({ alignment });
