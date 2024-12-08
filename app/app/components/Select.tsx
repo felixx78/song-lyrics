@@ -62,7 +62,7 @@ function Select({ label, value, onChange, options }: Props) {
 
       <div
         className={clsx(
-          "bg-black border absolute w-full divide-y divide-gray-600 rounded-md border-gray-600 top-[120%]",
+          "bg-black border z-10 absolute w-full divide-y divide-gray-600 rounded-md border-gray-600 top-[120%]",
           !isOpen && "hidden"
         )}
       >
