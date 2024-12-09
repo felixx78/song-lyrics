@@ -39,6 +39,7 @@ function Autocomplete<T>({
   isLoading,
 }: Props<T>) {
   const ref = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [selected, setSelected] = useState(defalutValue || "");
   const [value, setValue] = useState(defalutValue || "");
@@ -96,6 +97,7 @@ function Autocomplete<T>({
       case "Enter":
         if (highlightedIndex === null) return;
         handleButtonClick(dataToDisplay[highlightedIndex]);
+        inputRef.current?.blur();
         break;
       case "ArrowDown":
         if (
@@ -125,6 +127,7 @@ function Autocomplete<T>({
         <input
           value={inputValue ?? value}
           onChange={handleChange}
+          ref={inputRef}
           className="bg-black border placeholder-gray-400 border-gray-600 text-gray-200 pl-3 pr-9 py-1.5 rounded-md w-full"
           spellCheck={false}
           placeholder={placeholder}
