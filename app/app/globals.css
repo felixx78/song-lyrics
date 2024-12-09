@@ -23,3 +23,26 @@ body {
 input {
   outline: none;
 }
+
+.thin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #6b7280 #1f2937;
+}
+
+.thin-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.thin-scroll::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+.thin-scroll::-webkit-scrollbar-thumb {
+  background: #6b7280;
+  border-radius: 3px;
+}
+
+.thin-scroll::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
