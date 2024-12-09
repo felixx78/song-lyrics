@@ -1,5 +1,10 @@
 import { create } from "zustand";
-import Settings, { Aligment, FontSize, ShowFirst } from "../types/Settings";
+import Settings, {
+  Aligment,
+  FontSize,
+  Mode,
+  ShowFirst,
+} from "../types/Settings";
 import getLocalstorageItem from "../helpers/getLocalstorageItem";
 
 const useSettingsStore = create<Settings>((set) => ({
@@ -7,6 +12,7 @@ const useSettingsStore = create<Settings>((set) => ({
   alignment: getLocalstorageItem<Aligment>("aligment", "left"),
   showFirst: getLocalstorageItem<ShowFirst>("showFirst", "translate"),
   fontSize: getLocalstorageItem<FontSize>("fontSize", "medium"),
+  mode: getLocalstorageItem<Mode>("mode", "line"),
 
   setLanguage: (language: string) => {
     set({ language });
@@ -26,6 +32,11 @@ const useSettingsStore = create<Settings>((set) => ({
   setFontSize: (fontSize: FontSize) => {
     set({ fontSize });
     localStorage.setItem("fontSize", fontSize);
+  },
+
+  setMode: (mode: Mode) => {
+    set({ mode });
+    localStorage.setItem("mode", mode);
   },
 }));
 
