@@ -59,8 +59,8 @@ function Search({ size }: Props) {
       placeholder="Search"
       icon={<MangifyingGlass />}
       disableFiltering
-      size={size}
       isLoading={isLoading}
+      className={size === "lg" ? "mx-auto max-w-[500px]" : "max-w-[350px]"}
     />
   );
 }

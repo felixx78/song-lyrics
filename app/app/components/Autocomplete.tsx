@@ -13,7 +13,6 @@ import ChevronDown from "../icons/ChevronDown";
 
 type Props<T> = {
   defalutValue?: string;
-  size?: "md" | "lg";
   onChange: (v: T) => void;
   onInputChange?: (v: string) => void;
   options: Array<{ label: string; value: T }>;
@@ -23,10 +22,10 @@ type Props<T> = {
   disableFiltering?: boolean;
   inputValue?: string;
   isLoading?: boolean;
+  className?: string;
 };
 
 function Autocomplete<T>({
-  size = "md",
   options,
   defalutValue,
   onChange,
@@ -37,6 +36,7 @@ function Autocomplete<T>({
   disableFiltering,
   inputValue,
   isLoading,
+  className,
 }: Props<T>) {
   const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -116,13 +116,7 @@ function Autocomplete<T>({
   };
 
   return (
-    <div
-      ref={ref}
-      className={clsx(
-        "relative",
-        size === "lg" ? "mx-auto max-w-[500px]" : "max-w-[350px]"
-      )}
-    >
+    <div ref={ref} className={clsx("relative w-full", className)}>
       <div className="relative">
         <input
           value={inputValue ?? value}
