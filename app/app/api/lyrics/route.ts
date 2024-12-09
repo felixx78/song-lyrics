@@ -17,7 +17,6 @@ export async function GET(request: NextRequest) {
     .replaceAll('\\"', '"');
 
   const match = /"html":"(.+?)",/.exec(preloadedState);
-  console.log(preloadedState);
 
   // removing "html" and ", in end:
   const html = match ? match[0].slice(8, -2) : "";
