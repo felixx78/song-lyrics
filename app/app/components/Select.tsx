@@ -63,8 +63,8 @@ function Select({ label, value, onChange, options, className }: Props) {
 
       <div
         className={clsx(
-          "bg-black border z-10 absolute w-full divide-y divide-gray-600 rounded-md border-gray-600 top-[120%]",
-          !isOpen && "hidden"
+          "bg-black border transition-opacity z-10 absolute w-full divide-y divide-gray-600 rounded-md border-gray-600 top-[120%]",
+          !isOpen && "opacity-0 invisible"
         )}
       >
         {options.map((i, index) => (
