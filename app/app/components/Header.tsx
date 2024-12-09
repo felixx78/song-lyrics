@@ -22,7 +22,11 @@ function Header() {
       >
         song lyrics
       </Link>
-      {location !== "/" && <Search size="md" />}
+      {location !== "/" && (
+        <div className="hidden sm:block">
+          <Search size="md" />
+        </div>
+      )}
     </header>
   );
 }
