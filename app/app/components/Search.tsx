@@ -1,17 +1,23 @@
 "use client";
 
-import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
-import { useDebounce } from "use-debounce";
+import { useEffect, useState } from "react";
 import MangifyingGlass from "../icons/MangifyingGlass";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Song from "../types/Song";
-import Link from "next/link";
-import clsx from "clsx";
 import { useRouter } from "next/navigation";
+import Autocomplete from "./Autocomplete";
 
 type Props = {
   size: "md" | "lg";
+};
+
+const getLabel = (v: Song) => {
+  let result = `${v.title} - ${v.primary_artist.name}`;
+  if (v.featured_artists.length) {
+    result += ", " + v.featured_artists.map((i) => i.name).join(", ");
+  }
+  return result;
 };
 
 const handleSearch = async (q: string) => {
@@ -21,14 +27,13 @@ const handleSearch = async (q: string) => {
 
 function Search({ size }: Props) {
   const router = useRouter();
+  const [inputValue, setInputValue] = useState("");
 
-  const ref = useRef<HTMLDivElement>(null);
+  const { data, isLoading } = useQuery({
+    queryKey: ["song-search", inputValue],
+    queryFn: () => handleSearch(inputValue),
+  });
 
-  const [text, setText] = useState("");
-  const [value, setValue] = useDebounce(text, 50);
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
   const [recentViewed, setRecentViewed] = useState<Song[]>([]);
 
   useEffect(() => {
@@ -36,100 +41,27 @@ function Search({ size }: Props) {
     if (storedRecentViewed) setRecentViewed(JSON.parse(storedRecentViewed));
   }, []);
 
-  const { data } = useQuery({
-    queryKey: ["search", value],
-    queryFn: () => handleSearch(value),
-    enabled: !!value,
-  });
-
-  const dataToDisplay = value === "" ? recentViewed : data;
-
-  useEffect(() => {
-    const handleClick = (e: globalThis.MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setIsOpen(false);
-      }
-      setHighlightedIndex(null);
-    };
-
-    document.addEventListener("click", handleClick);
-    return () => {
-      document.removeEventListener("click", handleClick);
-    };
-  }, [ref]);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setText(e.target.value);
-    setHighlightedIndex(null);
+  const handleChange = (v: Song) => {
+    router.push(`/song/${v.id}`);
+    setInputValue("");
   };
 
-  const handleLinkClick = () => {
-    setText("");
-    setValue("");
-    setHighlightedIndex(null);
-    setIsOpen(false);
-  };
-
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (!dataToDisplay) return;
-
-    if (e.code === "Enter" && highlightedIndex !== null) {
-      router.push(`/song/${dataToDisplay[highlightedIndex].id}`);
-      handleLinkClick();
-    } else if (e.code === "ArrowDown") {
-      if (
-        highlightedIndex === null ||
-        highlightedIndex + 1 === dataToDisplay.length
-      ) {
-        setHighlightedIndex(0);
-      } else setHighlightedIndex(highlightedIndex + 1);
-    } else if (e.code === "ArrowUp") {
-      if (highlightedIndex === null || highlightedIndex - 1 === -1) {
-        setHighlightedIndex(dataToDisplay.length - 1);
-      } else setHighlightedIndex(highlightedIndex - 1);
-    }
-  };
+  const formatedData = (data?.length === 0 ? recentViewed : data || []).map(
+    (i) => ({ label: getLabel(i), value: i })
+  );
 
   return (
-    <div
-      ref={ref}
-      className={clsx(
-        "relative",
-        size === "lg" ? "mx-auto max-w-[500px]" : "max-w-[350px]"
-      )}
-    >
-      <div className="relative">
-        <input
-          value={text}
-          onChange={handleChange}
-          className="bg-black border placeholder-gray-400 border-gray-600 text-gray-200 pl-3 pr-9 py-1.5 rounded-md w-full"
-          spellCheck={false}
-          placeholder="search"
-          type="text"
-          onKeyDown={handleKeyDown}
-          onFocus={() => setIsOpen(true)}
-        />
-        <MangifyingGlass className="text-gray-400 absolute right-2 top-1/2 -translate-y-1/2" />
-      </div>
-
-      {isOpen && !!dataToDisplay?.length && (
-        <div className="bg-black border absolute w-full divide-y divide-gray-600 rounded-md border-gray-600 top-[120%]">
-          {dataToDisplay.map((i, index) => (
-            <Link
-              href={`/song/${i.id}`}
-              onClick={handleLinkClick}
-              className={clsx(
-                "px-2 py-1.5 block w-full hover:bg-gray-600 truncate text-left",
-                highlightedIndex === index && "bg-gray-600"
-              )}
-              key={i.id}
-            >
-              {i.title} - {i.artist_names}
-            </Link>
-          ))}
-        </div>
-      )}
-    </div>
+    <Autocomplete
+      options={formatedData}
+      onChange={(v) => handleChange(v)}
+      inputValue={inputValue}
+      onInputChange={setInputValue}
+      placeholder="Search"
+      icon={<MangifyingGlass />}
+      disableFiltering
+      size={size}
+      isLoading={isLoading}
+    />
   );
 }
 
