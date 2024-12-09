@@ -144,26 +144,30 @@ function Autocomplete<T>({
         )}
       </div>
 
-      {isOpen && (isLoading || !!dataToDisplay.length) && (
-        <div className="bg-black thin-scroll max-h-[375px] overflow-y-auto border absolute w-full divide-y divide-gray-600 rounded-md border-gray-600 top-[120%]">
-          {!isLoading &&
-            dataToDisplay.map((i, index) => (
-              <button
-                onClick={() => handleButtonClick(i)}
-                className={clsx(
-                  "px-2 py-1.5 block w-full hover:bg-gray-600 truncate text-left",
-                  highlightedIndex === index && "bg-gray-600"
-                )}
-                key={i.label + "-" + index}
-              >
-                {i.label}
-              </button>
-            ))}
-          {isLoading && (
-            <p className="py-1.5 px-2 text-gray-400 select-none">Loading...</p>
-          )}
-        </div>
-      )}
+      <div
+        className={clsx(
+          "bg-black transition-opacity thin-scroll max-h-[375px] overflow-y-auto border absolute w-full divide-y divide-gray-600 rounded-md border-gray-600 top-[120%]",
+          !(isOpen && (dataToDisplay.length || isLoading)) &&
+            "opacity-0 invisible"
+        )}
+      >
+        {!isLoading &&
+          dataToDisplay.map((i, index) => (
+            <button
+              onClick={() => handleButtonClick(i)}
+              className={clsx(
+                "px-2 py-1.5 block w-full hover:bg-gray-600 truncate text-left",
+                highlightedIndex === index && "bg-gray-600"
+              )}
+              key={i.label + "-" + index}
+            >
+              {i.label}
+            </button>
+          ))}
+        {isLoading && (
+          <p className="py-1.5 px-2 text-gray-400 select-none">Loading...</p>
+        )}
+      </div>
     </div>
   );
 }
