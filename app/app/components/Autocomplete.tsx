@@ -147,7 +147,7 @@ function Autocomplete<T>({
         )}
       </div>
 
-      {isOpen && (
+      {isOpen && (isLoading || !!dataToDisplay.length) && (
         <div className="bg-black thin-scroll max-h-[375px] overflow-y-auto border absolute w-full divide-y divide-gray-600 rounded-md border-gray-600 top-[120%]">
           {!isLoading &&
             dataToDisplay.map((i, index) => (
