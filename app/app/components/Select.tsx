@@ -9,9 +9,10 @@ type Props = {
   value: any;
   onChange: (v: any) => void;
   options: Array<{ label: React.ReactNode | string; value: any }>;
+  className?: string;
 };
 
-function Select({ label, value, onChange, options }: Props) {
+function Select({ label, value, onChange, options, className }: Props) {
   const ref = useRef<HTMLButtonElement>(null);
   const [selected, setSelected] = useState(
     options.find((i) => i.value === value)!
@@ -37,7 +38,7 @@ function Select({ label, value, onChange, options }: Props) {
   };
 
   return (
-    <div className="relative">
+    <div className={clsx("relative", className)}>
       <button
         onClick={() => setIsOpen(true)}
         ref={ref}
