@@ -16,15 +16,18 @@ export async function GET(request: NextRequest) {
     .slice(songPage.indexOf("window.__PRELOADED_STATE__"))
     .replaceAll('\\"', '"');
 
-  const match = /"html":"(.+?)"/.exec(preloadedState.replaceAll('\\"', '"'));
+  const match = /"html":"(.+?)",/.exec(preloadedState);
+  console.log(preloadedState);
 
-  // removing "html":
-  const html = match ? match[0].slice(8, -1) : "";
+  // removing "html" and ", in end:
+  const html = match ? match[0].slice(8, -2) : "";
 
   const lyrics = html
     .replace(/<\/?[^>]+(>|$)/g, "") // remove HTML tags
     .replace(/\\\\n/g, "\n") // replace `\n` with actual new lines
     .replace(/\\'/g, "'") // replace escaped single quotes
+    .replace(/\\"/g, '"') // replace escaped double quotes
+    .replace(/\\\"/g, '"')
     .replace(/&amp;/g, "&"); // decode `&`
 
   const {
