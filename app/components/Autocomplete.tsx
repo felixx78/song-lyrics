@@ -88,7 +88,7 @@ function Autocomplete<T>({
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setShowFiltered(true);
     setValue(e.target.value);
-    onInputChange && onInputChange(e.target.value);
+    if (onInputChange) onInputChange(e.target.value);
     setHighlightedIndex(null);
   };
 
