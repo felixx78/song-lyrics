@@ -39,7 +39,7 @@ function Lyrics({ orignal, translated }: Props) {
           <div
             className={clsx(
               mode === "line" && skeletonAlignClasses[alignment],
-              mode === "line" && "w-1/2",
+              mode === "line" && "w-3/4 sm:w-1/2",
               mode === "side" && "flex gap-4 divide-x-2 divide-gray-500"
             )}
             key={i}
