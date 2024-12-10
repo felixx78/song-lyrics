@@ -77,7 +77,7 @@ function Select({ label, value, onChange, options, className }: Props) {
               width: buttonRect.width,
             }}
             className={clsx(
-              "bg-black top-0 left-0 border transition-opacity z-10 fixed w-full divide-y divide-gray-600 rounded-md border-gray-600",
+              "bg-black border transition-opacity z-10 fixed w-full divide-y divide-gray-600 rounded-md border-gray-600",
               !isOpen && "opacity-0 invisible"
             )}
           >
