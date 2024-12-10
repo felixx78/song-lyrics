@@ -1,61 +1,40 @@
-# Song lyrics
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-Song lyrics is website for translating lyrics from Genius
+## Getting Started
 
-## Demo
-
-[Song Lyrics](https://song-lyrics.org)
-
-## Tech Stack
-
-**Client:** React, TailwindCSS, React Query, React Router, React Loading Skeleton, Typescript
-
-**Server:** Go, Genius API
-
-## Run Locally
-
-Clone the project
+First, run the development server:
 
 ```bash
+<<<<<<< HEAD
   git clone https://github.com/felixx78/Songlyrics
+=======
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+>>>>>>> nextjs-migration
 ```
 
-Go to the project directory
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-```bash
-  cd Songlyrics
-```
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-Install dependencies and run client
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-```bash
-  cd ./client
-```
+## Learn More
 
-```bash
-  npm install
-```
+To learn more about Next.js, take a look at the following resources:
 
-```bash
-  npm run dev
-```
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-Install dependencies for server
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-```bash
-  cd ./server
-```
+## Deploy on Vercel
 
-Create .env file
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Go to [Genius API](https://genius.com/api-clients) create api key and add
-
-```bash
-  GENIUS_APIKEY=your_api_key
-```
-
-Run server
-
-```bash
-  go run main.go
-```
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
