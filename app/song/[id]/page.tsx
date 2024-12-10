@@ -2,7 +2,6 @@
 
 import Lyrics from "@/app/components/Lyrics";
 import Settings from "@/app/components/Settings";
-import Loading from "@/app/loading";
 import useSettingsStore from "@/app/stores/useSettingsStore";
 import type Song from "@/app/types/Song";
 import { useQuery } from "@tanstack/react-query";
@@ -11,6 +10,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import clsx from "clsx";
+import LoadingScreen from "@/app/components/LoadingScreen";
 
 const fetchSong = async (id: string) => {
   const response = await axios.get(`/api/song/${id}`);
@@ -52,7 +52,7 @@ function Song() {
     );
   }, [data]);
 
-  if (!data) return <Loading />;
+  if (!data) return <LoadingScreen />;
 
   return (
     <div className="py-6">
