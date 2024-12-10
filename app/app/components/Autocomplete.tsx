@@ -10,6 +10,7 @@ import {
 } from "react";
 import clsx from "clsx";
 import ChevronDown from "../icons/ChevronDown";
+import { createPortal } from "react-dom";
 
 type Props<T> = {
   defalutValue?: string;
@@ -68,9 +69,16 @@ function Autocomplete<T>({
       setHighlightedIndex(null);
     };
 
+    const handleScroll = () => {
+      setIsOpen(false);
+      inputRef.current?.blur();
+    };
+
     document.addEventListener("click", handleClick);
+    document.addEventListener("scroll", handleScroll);
     return () => {
       document.removeEventListener("click", handleClick);
+      document.removeEventListener("scroll", handleScroll);
     };
   }, [ref, selected]);
 
@@ -115,6 +123,9 @@ function Autocomplete<T>({
     }
   };
 
+  const inputRect =
+    inputRef.current && inputRef.current.getBoundingClientRect();
+
   return (
     <div ref={ref} className={clsx("relative w-full", className)}>
       <div className="relative">
@@ -143,31 +154,42 @@ function Autocomplete<T>({
           </div>
         )}
       </div>
-
-      <div
-        className={clsx(
-          "bg-black transition-opacity thin-scroll max-h-[375px] overflow-y-auto border absolute w-full divide-y divide-gray-600 rounded-md border-gray-600 top-[120%]",
-          !(isOpen && (dataToDisplay.length || isLoading)) &&
-            "opacity-0 invisible"
-        )}
-      >
-        {!isLoading &&
-          dataToDisplay.map((i, index) => (
-            <button
-              onClick={() => handleButtonClick(i)}
-              className={clsx(
-                "px-2 py-1.5 block w-full hover:bg-gray-600 truncate text-left",
-                highlightedIndex === index && "bg-gray-600"
-              )}
-              key={i.label + "-" + index}
-            >
-              {i.label}
-            </button>
-          ))}
-        {isLoading && (
-          <p className="py-1.5 px-2 text-gray-400 select-none">Loading...</p>
-        )}
-      </div>
+      {createPortal(
+        inputRect && (
+          <div
+            style={{
+              left: inputRect.left,
+              top: inputRect.top + inputRect.height + 5,
+              width: inputRect.width,
+            }}
+            className={clsx(
+              "bg-black fixed transition-opacity thin-scroll max-h-[375px] overflow-y-auto border w-full divide-y divide-gray-600 rounded-md border-gray-600",
+              !(isOpen && (dataToDisplay.length || isLoading)) &&
+                "opacity-0 invisible"
+            )}
+          >
+            {!isLoading &&
+              dataToDisplay.map((i, index) => (
+                <button
+                  onClick={() => handleButtonClick(i)}
+                  className={clsx(
+                    "px-2 py-1.5 block w-full hover:bg-gray-600 truncate text-left",
+                    highlightedIndex === index && "bg-gray-600"
+                  )}
+                  key={i.label + "-" + index}
+                >
+                  {i.label}
+                </button>
+              ))}
+            {isLoading && (
+              <p className="py-1.5 px-2 text-gray-400 select-none">
+                Loading...
+              </p>
+            )}
+          </div>
+        ),
+        document.body
+      )}
     </div>
   );
 }
