@@ -49,7 +49,7 @@ function Select({ label, value, onChange, options, className }: Props) {
       <button
         onClick={() => setIsOpen(true)}
         ref={ref}
-        className="relative min-w-[200px] block w-full"
+        className="relative outline-none min-w-[200px] block w-full"
       >
         <div className="bg-black border text-left placeholder-gray-400 border-gray-600 text-gray-200 pl-3 pr-9 py-1.5 rounded-md w-full">
           {selected.value}
