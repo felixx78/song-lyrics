@@ -18,7 +18,7 @@ const skeletonHeights = {
   large: [24, 20.4],
 };
 
-const skeletonAlignStyles = {
+const skeletonAlignClasses = {
   left: "",
   center: "mx-auto",
   right: "ml-auto mr-0",
@@ -29,20 +29,40 @@ function Lyrics({ orignal, translated }: Props) {
 
   if (!orignal || !translated) {
     return (
-      <div className="px-4 max-w-[1300px] mx-auto space-y-3">
+      <div
+        className={clsx(
+          "px-4 max-w-[1300px] mx-auto",
+          mode === "line" && "space-y-3"
+        )}
+      >
         {Array.from({ length: 15 }, (_, i) => i).map((i) => (
           <div
-            className={clsx("w-1/2", skeletonAlignStyles[alignment])}
+            className={clsx(
+              mode === "line" && skeletonAlignClasses[alignment],
+              mode === "line" && "w-1/2",
+              mode === "side" && "flex gap-4 divide-x-2 divide-gray-500"
+            )}
             key={i}
           >
             <div
-              style={{ height: skeletonHeights[fontSize][0] }}
-              className="w-full animate-pulse mb-2 bg-gray-700"
-            />
-            <div
-              style={{ height: skeletonHeights[fontSize][1] }}
-              className="w-full animate-pulse bg-gray-800"
-            />
+              className={clsx("w-full", mode === "line" ? "mb-2" : "py-1.5")}
+            >
+              <div
+                style={{ height: skeletonHeights[fontSize][0] }}
+                className="w-full animate-pulse bg-gray-400"
+              />
+            </div>
+            <div className={clsx("w-full", mode === "side" && "pl-4 py-1.5")}>
+              <div
+                style={{
+                  height: skeletonHeights[fontSize][mode === "line" ? 1 : 0],
+                }}
+                className={clsx(
+                  "w-full animate-pulse",
+                  mode === "line" ? "bg-gray-500" : "bg-gray-400"
+                )}
+              />
+            </div>
           </div>
         ))}
       </div>
