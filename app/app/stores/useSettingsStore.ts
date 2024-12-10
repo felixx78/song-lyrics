@@ -21,7 +21,7 @@ const useSettingsStore = create<Settings>((set) => ({
 
   setAlignment: (alignment: Aligment) => {
     set({ alignment });
-    localStorage.setItem("alignment", alignment);
+    localStorage.setItem("aligment", alignment);
   },
 
   setShowFirst: (showFirst: ShowFirst) => {
