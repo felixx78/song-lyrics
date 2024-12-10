@@ -32,6 +32,7 @@ function Search({ size }: Props) {
   const { data, isLoading } = useQuery({
     queryKey: ["song-search", inputValue],
     queryFn: () => handleSearch(inputValue),
+    enabled: inputValue.length !== 0,
   });
 
   const [recentViewed, setRecentViewed] = useState<Song[]>([]);
