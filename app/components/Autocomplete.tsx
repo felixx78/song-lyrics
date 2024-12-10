@@ -24,6 +24,7 @@ type Props<T> = {
   inputValue?: string;
   isLoading?: boolean;
   className?: string;
+  useAbsolute?: boolean;
 };
 
 function Autocomplete<T>({
@@ -38,6 +39,7 @@ function Autocomplete<T>({
   inputValue,
   isLoading,
   className,
+  useAbsolute,
 }: Props<T>) {
   const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -73,6 +75,7 @@ function Autocomplete<T>({
     };
 
     const handleScroll = () => {
+      if (useAbsolute) return;
       setIsOpen(false);
       inputRef.current?.blur();
     };
@@ -162,12 +165,15 @@ function Autocomplete<T>({
           inputRect && (
             <div
               style={{
-                left: inputRect.left,
-                top: inputRect.top + inputRect.height + 5,
+                left: useAbsolute ? "0" : inputRect.left,
+                top: useAbsolute
+                  ? "110%"
+                  : inputRect.top + inputRect.height + 5,
                 width: inputRect.width,
+                position: useAbsolute ? "absolute" : "fixed",
               }}
               className={clsx(
-                "bg-black z-10 fixed transition-opacity thin-scroll max-h-[280px]  overflow-y-auto border w-full divide-y divide-gray-600 rounded-md border-gray-600",
+                "bg-black z-10 transition-opacity thin-scroll max-h-[280px]  overflow-y-auto border w-full divide-y divide-gray-600 rounded-md border-gray-600",
                 !(isOpen && (dataToDisplay.length || isLoading)) &&
                   "opacity-0 invisible"
               )}
@@ -192,7 +198,7 @@ function Autocomplete<T>({
               )}
             </div>
           ),
-          document.body
+          useAbsolute ? ref.current! : document.body
         )}
     </div>
   );
