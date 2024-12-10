@@ -163,7 +163,7 @@ function Autocomplete<T>({
               width: inputRect.width,
             }}
             className={clsx(
-              "bg-black fixed transition-opacity thin-scroll max-h-[375px] overflow-y-auto border w-full divide-y divide-gray-600 rounded-md border-gray-600",
+              "bg-black z-10 fixed transition-opacity thin-scroll max-h-[280px]  overflow-y-auto border w-full divide-y divide-gray-600 rounded-md border-gray-600",
               !(isOpen && (dataToDisplay.length || isLoading)) &&
                 "opacity-0 invisible"
             )}
