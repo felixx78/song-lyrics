@@ -15,12 +15,16 @@ type Props = {
 
 function Select({ label, value, onChange, options, className }: Props) {
   const ref = useRef<HTMLButtonElement>(null);
+
+  const [isMounted, setIsMounted] = useState(false);
+
   const [selected, setSelected] = useState(
     options.find((i) => i.value === value)!
   );
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     const handleClick = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         setIsOpen(false);
@@ -68,38 +72,39 @@ function Select({ label, value, onChange, options, className }: Props) {
         </div>
       </button>
 
-      {createPortal(
-        buttonRect && (
-          <div
-            style={{
-              left: buttonRect.left,
-              top: buttonRect.top + buttonRect.height + 5,
-              width: buttonRect.width,
-            }}
-            className={clsx(
-              "bg-black border transition-opacity z-10 fixed w-full divide-y divide-gray-600 rounded-md border-gray-600",
-              !isOpen && "opacity-0 invisible"
-            )}
-          >
-            {options.map((i, index) => (
-              <button
-                key={index}
-                onClick={() => handleChange(i)}
-                className={clsx(
-                  "px-2 block w-full text-left py-1.5",
-                  i.value === selected.value
-                    ? "bg-gray-900"
-                    : "hover:bg-gray-600"
-                )}
-              >
-                {i.label}
-              </button>
-            ))}
-          </div>
-        ),
+      {isMounted &&
+        createPortal(
+          buttonRect && (
+            <div
+              style={{
+                left: buttonRect.left,
+                top: buttonRect.top + buttonRect.height + 5,
+                width: buttonRect.width,
+              }}
+              className={clsx(
+                "bg-black border transition-opacity z-10 fixed w-full divide-y divide-gray-600 rounded-md border-gray-600",
+                !isOpen && "opacity-0 invisible"
+              )}
+            >
+              {options.map((i, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleChange(i)}
+                  className={clsx(
+                    "px-2 block w-full text-left py-1.5",
+                    i.value === selected.value
+                      ? "bg-gray-900"
+                      : "hover:bg-gray-600"
+                  )}
+                >
+                  {i.label}
+                </button>
+              ))}
+            </div>
+          ),
 
-        document.body
-      )}
+          document.body
+        )}
     </div>
   );
 }

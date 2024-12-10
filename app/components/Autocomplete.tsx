@@ -42,6 +42,8 @@ function Autocomplete<T>({
   const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const [isMounted, setIsMounted] = useState(false);
+
   const [selected, setSelected] = useState(defalutValue || "");
   const [value, setValue] = useState(defalutValue || "");
 
@@ -60,6 +62,7 @@ function Autocomplete<T>({
   const dataToDisplay = showFiltered ? filteredOptions : options;
 
   useEffect(() => {
+    setIsMounted(true);
     const handleClick = (e: globalThis.MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         setIsOpen(false);
@@ -154,42 +157,43 @@ function Autocomplete<T>({
           </div>
         )}
       </div>
-      {createPortal(
-        inputRect && (
-          <div
-            style={{
-              left: inputRect.left,
-              top: inputRect.top + inputRect.height + 5,
-              width: inputRect.width,
-            }}
-            className={clsx(
-              "bg-black z-10 fixed transition-opacity thin-scroll max-h-[280px]  overflow-y-auto border w-full divide-y divide-gray-600 rounded-md border-gray-600",
-              !(isOpen && (dataToDisplay.length || isLoading)) &&
-                "opacity-0 invisible"
-            )}
-          >
-            {!isLoading &&
-              dataToDisplay.map((i, index) => (
-                <button
-                  onClick={() => handleButtonClick(i)}
-                  className={clsx(
-                    "px-2 py-1.5 block w-full hover:bg-gray-600 truncate text-left",
-                    highlightedIndex === index && "bg-gray-600"
-                  )}
-                  key={i.label + "-" + index}
-                >
-                  {i.label}
-                </button>
-              ))}
-            {isLoading && (
-              <p className="py-1.5 px-2 text-gray-400 select-none">
-                Loading...
-              </p>
-            )}
-          </div>
-        ),
-        document.body
-      )}
+      {isMounted &&
+        createPortal(
+          inputRect && (
+            <div
+              style={{
+                left: inputRect.left,
+                top: inputRect.top + inputRect.height + 5,
+                width: inputRect.width,
+              }}
+              className={clsx(
+                "bg-black z-10 fixed transition-opacity thin-scroll max-h-[280px]  overflow-y-auto border w-full divide-y divide-gray-600 rounded-md border-gray-600",
+                !(isOpen && (dataToDisplay.length || isLoading)) &&
+                  "opacity-0 invisible"
+              )}
+            >
+              {!isLoading &&
+                dataToDisplay.map((i, index) => (
+                  <button
+                    onClick={() => handleButtonClick(i)}
+                    className={clsx(
+                      "px-2 py-1.5 block w-full hover:bg-gray-600 truncate text-left",
+                      highlightedIndex === index && "bg-gray-600"
+                    )}
+                    key={i.label + "-" + index}
+                  >
+                    {i.label}
+                  </button>
+                ))}
+              {isLoading && (
+                <p className="py-1.5 px-2 text-gray-400 select-none">
+                  Loading...
+                </p>
+              )}
+            </div>
+          ),
+          document.body
+        )}
     </div>
   );
 }
