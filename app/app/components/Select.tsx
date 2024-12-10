@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import ChevronDown from "../icons/ChevronDown";
 import { clsx } from "clsx";
+import { createPortal } from "react-dom";
 
 type Props = {
   label: string;
@@ -26,8 +27,12 @@ function Select({ label, value, onChange, options, className }: Props) {
       }
     };
 
+    const handleScroll = () => setIsOpen(false);
+
+    window.addEventListener("scroll", handleScroll);
     window.addEventListener("click", handleClick);
     return () => {
+      window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("click", handleClick);
     };
   }, [ref]);
@@ -36,6 +41,8 @@ function Select({ label, value, onChange, options, className }: Props) {
     onChange(i.value);
     setSelected(i);
   };
+
+  const buttonRect = ref.current && ref.current.getBoundingClientRect();
 
   return (
     <div className={clsx("relative", className)}>
@@ -61,25 +68,38 @@ function Select({ label, value, onChange, options, className }: Props) {
         </div>
       </button>
 
-      <div
-        className={clsx(
-          "bg-black border transition-opacity z-10 absolute w-full divide-y divide-gray-600 rounded-md border-gray-600 top-[120%]",
-          !isOpen && "opacity-0 invisible"
-        )}
-      >
-        {options.map((i, index) => (
-          <button
-            key={index}
-            onClick={() => handleChange(i)}
+      {createPortal(
+        buttonRect && (
+          <div
+            style={{
+              left: buttonRect.left,
+              top: buttonRect.top + buttonRect.height + 5,
+              width: buttonRect.width,
+            }}
             className={clsx(
-              "px-2 block w-full text-left py-1.5",
-              i.value === selected.value ? "bg-gray-900" : "hover:bg-gray-600"
+              "bg-black top-0 left-0 border transition-opacity z-10 fixed w-full divide-y divide-gray-600 rounded-md border-gray-600",
+              !isOpen && "opacity-0 invisible"
             )}
           >
-            {i.label}
-          </button>
-        ))}
-      </div>
+            {options.map((i, index) => (
+              <button
+                key={index}
+                onClick={() => handleChange(i)}
+                className={clsx(
+                  "px-2 block w-full text-left py-1.5",
+                  i.value === selected.value
+                    ? "bg-gray-900"
+                    : "hover:bg-gray-600"
+                )}
+              >
+                {i.label}
+              </button>
+            ))}
+          </div>
+        ),
+
+        document.body
+      )}
     </div>
   );
 }
