@@ -47,9 +47,10 @@ function Search({ size }: Props) {
     setInputValue("");
   };
 
-  const formatedData = (data?.length === 0 ? recentViewed : data || []).map(
-    (i) => ({ label: getLabel(i), value: i })
-  );
+  const formatedData = (!data?.length ? recentViewed : data || []).map((i) => ({
+    label: getLabel(i),
+    value: i,
+  }));
 
   return (
     <Autocomplete
