@@ -11,6 +11,7 @@ import {
 import clsx from "clsx";
 import ChevronDown from "../icons/ChevronDown";
 import { createPortal } from "react-dom";
+import useMediaQuery from "../hooks/use-media-query";
 
 type Props<T> = {
   defalutValue?: string;
@@ -52,6 +53,7 @@ function Autocomplete<T>({
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
   const [showFiltered, setShowFiltered] = useState(false);
+  const isTabletScreen = useMediaQuery("(max-width: 768px)");
 
   const filteredOptions = useMemo(() => {
     return disableFiltering
@@ -86,7 +88,7 @@ function Autocomplete<T>({
       document.removeEventListener("click", handleClick);
       document.removeEventListener("scroll", handleScroll);
     };
-  }, [ref, selected]);
+  }, [ref, inputRef, selected]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setShowFiltered(true);
@@ -144,7 +146,9 @@ function Autocomplete<T>({
           placeholder={placeholder}
           type="text"
           onKeyDown={handleKeyDown}
-          onFocus={() => setIsOpen(true)}
+          onFocus={() =>
+            setTimeout(() => setIsOpen(true), isTabletScreen ? 200 : 0)
+          }
         />
         <div className="absolute top-1/2 right-2.5 -translate-y-1/2">
           {icon ? icon : <ChevronDown />}
