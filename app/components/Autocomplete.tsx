@@ -3,6 +3,7 @@
 import {
   ChangeEvent,
   KeyboardEvent,
+  TouchEvent,
   useEffect,
   useMemo,
   useRef,
@@ -11,7 +12,6 @@ import {
 import clsx from "clsx";
 import ChevronDown from "../icons/ChevronDown";
 import { createPortal } from "react-dom";
-import useMediaQuery from "../hooks/use-media-query";
 
 type Props<T> = {
   defalutValue?: string;
@@ -53,7 +53,7 @@ function Autocomplete<T>({
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
   const [showFiltered, setShowFiltered] = useState(false);
-  const isTabletScreen = useMediaQuery("(max-width: 768px)");
+  const [hasTouched, setHasTouched] = useState(false);
 
   const filteredOptions = useMemo(() => {
     return disableFiltering
@@ -134,6 +134,13 @@ function Autocomplete<T>({
   const inputRect =
     inputRef.current && inputRef.current.getBoundingClientRect();
 
+  const handleTouch = (e: TouchEvent) => {
+    if (useAbsolute) return;
+    e.preventDefault();
+    setHasTouched(true);
+    setIsOpen(true);
+  };
+
   return (
     <div ref={ref} className={clsx("relative w-full", className)}>
       <div className="relative">
@@ -141,14 +148,16 @@ function Autocomplete<T>({
           value={inputValue ?? value}
           onChange={handleChange}
           ref={inputRef}
-          className="bg-black border placeholder-gray-400 border-gray-600 text-gray-200 pl-3 pr-9 py-1.5 rounded-md w-full"
+          className="bg-black border touch-none placeholder-gray-400 border-gray-600 text-gray-200 pl-3 pr-9 py-1.5 rounded-md w-full"
           spellCheck={false}
           placeholder={placeholder}
           type="text"
+          readOnly={hasTouched}
           onKeyDown={handleKeyDown}
-          onFocus={() =>
-            setTimeout(() => setIsOpen(true), isTabletScreen ? 200 : 0)
-          }
+          onFocus={() => setIsOpen(true)}
+          onTouchStart={handleTouch}
+          onTouchMove={handleTouch}
+          onTouchEnd={handleTouch}
         />
         <div className="absolute top-1/2 right-2.5 -translate-y-1/2">
           {icon ? icon : <ChevronDown />}
