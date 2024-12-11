@@ -105,7 +105,7 @@ function Settings() {
           className="sm:max-w-[220px]"
           label="language"
           defalutValue={languages[language as keyof typeof languages]}
-          onChange={(v) => setLanguage(v)}
+          onChange={setLanguage}
           options={Object.entries(languages).map(([code, name]) => ({
             label: name,
             value: code,
