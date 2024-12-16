@@ -1,7 +1,7 @@
 import response from "@/app/helpers/response";
 import { NextRequest } from "next/server";
 import axios from "axios";
-import translate from "@iamtraction/google-translate";
+import translate from "../translate";
 
 export async function GET(request: NextRequest) {
   const queryParams = request.nextUrl.searchParams;
@@ -29,13 +29,7 @@ export async function GET(request: NextRequest) {
     .replace(/\\\"/g, '"')
     .replace(/&amp;/g, "&"); // decode `&`
 
-  const {
-    text: translated,
-    from: { language },
-  } = await translate(lyrics, {
-    from: "auto",
-    to: lang,
-  });
+  const translated = await translate(lyrics, "auto", lang);
 
-  return response({ lyrics, translated, from: language.iso });
+  return response({ lyrics, translated });
 }
