@@ -125,9 +125,10 @@ function updateTKK() {
     if (Number(config.TKK.split(".")[0]) === now) {
       resolve();
     } else {
-      got("https://translate.google.com")
+      axios
+        .get("https://translate.google.com")
         .then(function (res) {
-          var code = res.body.match(/TKK=(.*?)\(\)\)'\);/g);
+          var code = res.data.match(/TKK=(.*?)\(\)\)'\);/g);
 
           if (code) {
             eval(code[0]);
