@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable-next-line @typescript-eslint/no-unused-expressions */
+/* eslint-disable @typescript-eslint/no-require-imports */
 
 import axios from "axios";
 const token = require("google-translate-token");
