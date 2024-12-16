@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable-next-line @typescript-eslint/no-unused-expressions */
+
 import axios from "axios";
 
 let yr = null;
