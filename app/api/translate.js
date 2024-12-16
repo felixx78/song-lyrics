@@ -7,7 +7,7 @@ const token = require("google-translate-token");
 
 async function translate(text, from, to) {
   const { value: tk } = await token.get(text);
-  const url = new URL("https://translate.googleapis.com/translate_a/single");
+  const url = new URL("https://translate.google.com/translate_a/single");
 
   url.searchParams.append("client", "gtx");
   url.searchParams.append("sl", from);
