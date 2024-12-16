@@ -3,83 +3,119 @@
 
 import axios from "axios";
 
-let yr = null;
-const cache = {};
+let vm = {};
 
-async function sM(a) {
-  const wr = (char) => () => char;
-  const xr = (a, b) => {
-    for (let i = 0; i < b.length - 2; i += 3) {
-      const d = b.charAt(i + 2);
-      const val = "a" <= d ? d.charCodeAt(0) - 87 : Number(d);
-      const shift = "+" === b.charAt(i + 1) ? a >>> val : a << val;
-      a = "+" === b.charAt(i) ? (a + shift) & 4294967295 : a ^ shift;
-    }
-    return a;
-  };
+function sM(a, TTK) {
+  vm.x = a;
 
-  var b;
-  if (null !== yr) b = yr;
-  else {
-    b = wr(String.fromCharCode(84));
-    var c = wr(String.fromCharCode(75));
-    b = [b(), b()];
-    b[1] = c();
-    b = (yr = cache[b.join(c())] || "") || "";
+  if (TTK) {
+    vm.internalTTK = TTK;
+  } else {
+    vm.internalTTK = "0";
   }
-  var d = wr(String.fromCharCode(116)),
-    c = wr(String.fromCharCode(107)),
-    d = [d(), d()];
-  d[1] = c();
-  c = "&" + d.join("") + "=";
-  d = b.split(".");
-  b = Number(d[0]) || 0;
-  for (var e = [], f = 0, g = 0; g < a.length; g++) {
-    var l = a.charCodeAt(g);
-    128 > l
-      ? (e[f++] = l)
-      : (2048 > l
-          ? (e[f++] = (l >> 6) | 192)
-          : (55296 == (l & 64512) &&
-            g + 1 < a.length &&
-            56320 == (a.charCodeAt(g + 1) & 64512)
-              ? ((l = 65536 + ((l & 1023) << 10) + (a.charCodeAt(++g) & 1023)),
-                (e[f++] = (l >> 18) | 240),
-                (e[f++] = ((l >> 12) & 63) | 128))
-              : (e[f++] = (l >> 12) | 224),
-            (e[f++] = ((l >> 6) & 63) | 128)),
-        (e[f++] = (l & 63) | 128));
-  }
-  a = b;
-  for (f = 0; f < e.length; f++) (a += e[f]), (a = xr(a, "+-a^+6"));
-  a = xr(a, "+-3^+b+-f");
-  a ^= Number(d[1]) || 0;
-  0 > a && (a = (a & 2147483647) + 2147483648);
-  a %= 1e6;
-  return c + (a.toString() + "." + (a ^ b));
+
+  const result = eval(`
+        function sM(a) {
+            var b;
+            if (null !== yr)
+                b = yr;
+            else {
+                b = wr(String.fromCharCode(84));
+                var c = wr(String.fromCharCode(75));
+                b = [b(), b()];
+                b[1] = c();
+                b = (yr = window[b.join(c())] || "") || ""
+            }
+            var d = wr(String.fromCharCode(116))
+                , c = wr(String.fromCharCode(107))
+                , d = [d(), d()];
+            d[1] = c();
+            c = "&" + d.join("") + "=";
+            d = b.split(".");
+            b = Number(d[0]) || 0;
+            for (var e = [], f = 0, g = 0; g < a.length; g++) {
+                var l = a.charCodeAt(g);
+                128 > l ? e[f++] = l : (2048 > l ? e[f++] = l >> 6 | 192 : (55296 == (l & 64512) && g + 1 < a.length && 56320 == (a.charCodeAt(g + 1) & 64512) ? (l = 65536 + ((l & 1023) << 10) + (a.charCodeAt(++g) & 1023),
+                    e[f++] = l >> 18 | 240,
+                    e[f++] = l >> 12 & 63 | 128) : e[f++] = l >> 12 | 224,
+                    e[f++] = l >> 6 & 63 | 128),
+                    e[f++] = l & 63 | 128)
+            }
+            a = b;
+            for (f = 0; f < e.length; f++)
+                a += e[f],
+                    a = xr(a, "+-a^+6");
+            a = xr(a, "+-3^+b+-f");
+            a ^= Number(d[1]) || 0;
+            0 > a && (a = (a & 2147483647) + 2147483648);
+            a %= 1E6;
+            return c + (a.toString() + "." + (a ^ b))
+        }
+
+        var yr = null;
+        var wr = function(a) {
+            return function() {
+                return a
+            }
+        }
+            , xr = function(a, b) {
+            for (var c = 0; c < b.length - 2; c += 3) {
+                var d = b.charAt(c + 2)
+                    , d = "a" <= d ? d.charCodeAt(0) - 87 : Number(d)
+                    , d = "+" == b.charAt(c + 1) ? a >>> d : a << d;
+                a = "+" == b.charAt(c) ? a + d & 4294967295 : a ^ d
+            }
+            return a
+        };
+        
+        var window = {
+            TKK: vm.internalTTK
+        };
+
+        sM(a)
+    `);
+
+  return result;
 }
 
 async function updateTTK(TTK) {
-  const now = Math.floor(Date.now() / 3600000);
-  if (TTK === now) return TTK;
+  const t = Math.floor(Date.now() / 3600000);
+  const now = Math.floor(t);
+  const ttk = parseFloat(TTK);
+
+  if (ttk === now) {
+    return TTK;
+  }
 
   try {
     const response = await axios.get(`https://translate.google.com`);
-    const matches = response.data.match(/tkk:\s?'(.+?)'/);
-    return matches && matches[1] ? matches[1] : TTK;
+    const body = response.data;
+
+    const matches = body.match(/tkk:\s?'(.+?)'/);
+    if (matches && matches.length > 1) {
+      return matches[1];
+    }
   } catch (error) {
-    console.error("Error fetching TTK:", error);
-    return TTK;
+    console.error(error);
   }
+
+  return TTK;
 }
 
-async function getToken(text, ttk) {
+async function get(text, ttk) {
   ttk = await updateTTK(ttk);
-  return await sM(text, ttk);
+  const tk = await sM(text, ttk);
+
+  if (!tk) {
+    return "";
+  }
+  const sTk = tk.replace("&tk=", "");
+  return sTk;
 }
 
 async function translate(text, fromLang, toLang) {
-  const tk = getToken(encodeURIComponent(text), "0");
+  const tk = await get(encodeURIComponent(text), "0");
+  console.log(tk);
   const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${fromLang}&tl=${toLang}&tk=${tk}&hl=${toLang}&dt=t&q=${encodeURIComponent(
     text
   )}`;
