@@ -24,10 +24,10 @@ export const metadata: Metadata = {
     url: "https://song-lyrics.org",
     images: [
       {
-        url: "https://song-lyrics.org/_next/image?url=%2Fimage.jpg&w=640&q=75%201x,%20/_next/image?url=%2Fimage.jpg&w=1200&q=75",
+        url: "https://i.ibb.co/Bc9d1WC/image.jpg",
         width: 600,
         height: 600,
-        alt: "Song Lyrics Translation App",
+        alt: "",
       },
     ],
   },
