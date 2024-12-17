@@ -11,12 +11,10 @@
   "dependencies": {
     "@tanstack/react-query": "^5.62.2",
     "axios": "^1.7.9",
+    "cloudflare-scraper": "^2.0.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.13.5",
     "next": "15.0.3",
-    "puppeteer-core": "^22.13.1",
-    "puppeteer-extra": "^3.3.6",
-    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "use-debounce": "^10.0.4",
