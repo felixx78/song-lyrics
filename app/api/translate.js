@@ -4,6 +4,10 @@
 
 import axios from "axios";
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function translate(text, from, to) {
   const tk = await get(text);
   const url = new URL("https://translate.google.com/translate_a/single");
@@ -24,23 +28,24 @@ async function translate(text, from, to) {
     (param) => url.searchParams.append("dt", param)
   );
 
-  try {
-    const response = await axios.get(url.toString());
-    if (
-      response.data &&
-      Array.isArray(response.data[0]) &&
-      response.data[0].length > 0
-    ) {
-      const translatedText = response.data[0].map((item) => item[0]).join("");
-      return translatedText;
-    } else {
-      console.error("Unexpected response format or empty data:", response.data);
-      throw new Error("Translation failed or returned empty data");
+  let data;
+
+  for (let i = 0; i < 3; i++) {
+    try {
+      const response = await axios.get(url.toString());
+      data = response.data;
+      break;
+    } catch (error) {
+      if (i < 2) await sleep(2000);
     }
-  } catch (error) {
-    console.error("Error during translation request:", error);
-    throw new Error("Translation failed");
   }
+
+  if (data && Array.isArray(data[0]) && data[0].length > 0) {
+    const translated = data[0].map((i) => i[0]).join("");
+    return translated;
+  }
+
+  throw new Error("Translation failed");
 }
 
 /**
