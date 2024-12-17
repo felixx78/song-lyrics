@@ -16,8 +16,8 @@ export async function GET(request: NextRequest) {
     console.log(response);
     songPage = response.data;
   } catch (e: any) {
-    console.log(e);
-    console.log(e?.toJson());
+    console.log(e.response);
+    console.log(e.toJSON());
   }
 
   const preloadedState = songPage
