@@ -2,6 +2,20 @@ import response from "@/app/helpers/response";
 import { NextRequest } from "next/server";
 import translate from "../translate";
 import axios from "axios";
+import puppeteer from "puppeteer";
+
+const browser = await puppeteer.launch({
+  headless: true,
+});
+
+const getContentPage = async (url: string) => {
+  const browser = await puppeteer.launch({ headless: true });
+  const page = await browser.newPage();
+  await page.goto(url, { waitUntil: "domcontentloaded" });
+  const content = await page.content();
+  await page.close();
+  return content;
+};
 
 export async function GET(request: NextRequest) {
   const queryParams = request.nextUrl.searchParams;
@@ -12,9 +26,9 @@ export async function GET(request: NextRequest) {
 
   let songPage = "";
   try {
-    const response = await axios.get(url);
+    const response = await getContentPage(url);
     console.log(response);
-    songPage = response.data;
+    songPage = response;
   } catch (e: any) {
     console.log(e.response);
     console.log(e.toJSON());

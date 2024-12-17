@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  serverExternalPackages: ["puppeteer"],
 };
 
 export default nextConfig;
