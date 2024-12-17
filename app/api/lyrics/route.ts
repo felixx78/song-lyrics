@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
 
   if (!url) return response("no url", 400);
 
-  let startIndex = currentProxyIndex;
+  const startIndex = currentProxyIndex;
   let songPage = "";
   do {
     try {
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
         proxy: proxies ? proxies[1] : undefined,
       });
       songPage = data;
-    } catch (e) {
+    } catch (_) {
       if (currentProxyIndex + 1 === proxies?.length) currentProxyIndex = 0;
       else currentProxyIndex++;
     }
