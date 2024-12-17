@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
       });
       songPage = data;
       break;
-    } catch (e) {
+    } catch (_) {
       if (currentProxyIndex + 1 === proxies?.length) currentProxyIndex = 0;
       else currentProxyIndex++;
     }
