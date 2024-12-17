@@ -9,11 +9,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  serverExternalPackages: [
-    "puppeteer-extra",
-    "puppeteer-extra-plugin-stealth",
-    "puppeteer-extra-plugin-recaptcha",
-  ],
+  serverExternalPackages: ["puppeteer-extra", "puppeteer-extra-plugin-stealth"],
 };
 
 export default nextConfig;
