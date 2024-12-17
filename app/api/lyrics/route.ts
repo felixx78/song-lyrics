@@ -2,13 +2,9 @@ import response from "@/app/helpers/response";
 import { NextRequest } from "next/server";
 import axios from "axios";
 import translate from "../translate";
+import { HttpsProxyAgent } from "https-proxy-agent";
 
-const proxies =
-  process.env?.PROXIES &&
-  JSON.parse(process.env.PROXIES).map((i: any) => ({
-    ...i,
-    protocol: "http",
-  }));
+const proxies = process.env?.PROXIES && JSON.parse(process.env.PROXIES);
 
 let currentProxyIndex = 0;
 
@@ -23,8 +19,9 @@ export async function GET(request: NextRequest) {
   let songPage = "";
   do {
     try {
+      const proxyAgent = new HttpsProxyAgent(proxies[currentProxyIndex]);
       const { data } = await axios.get(url, {
-        proxy: proxies ? proxies[currentProxyIndex] : undefined,
+        httpAgent: proxyAgent,
       });
       songPage = data;
       break;
