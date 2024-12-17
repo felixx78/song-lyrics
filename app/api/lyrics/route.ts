@@ -1,7 +1,6 @@
 import response from "@/app/helpers/response";
 import { NextRequest } from "next/server";
 import translate from "../translate";
-import axios from "axios";
 import puppeteer from "puppeteer";
 
 const browser = await puppeteer.launch({
@@ -9,7 +8,6 @@ const browser = await puppeteer.launch({
 });
 
 const getContentPage = async (url: string) => {
-  const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
   await page.goto(url, { waitUntil: "domcontentloaded" });
   const content = await page.content();
