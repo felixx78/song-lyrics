@@ -1,12 +1,20 @@
 import response from "@/app/helpers/response";
 import { NextRequest } from "next/server";
-import axios from "axios";
 import translate from "../translate";
-import { HttpsProxyAgent } from "https-proxy-agent";
+import puppeteer from "puppeteer-extra";
+import StealthPlugin from "puppeteer-extra-plugin-stealth";
 
-const proxies = process.env?.PROXIES && JSON.parse(process.env.PROXIES);
+puppeteer.use(StealthPlugin());
 
-let currentProxyIndex = 0;
+const browser = await puppeteer.launch();
+
+const getContentPage = async (url: string) => {
+  const page = await browser.newPage();
+  await page.goto(url);
+  const content = await page.content();
+  await page.close();
+  return content;
+};
 
 export async function GET(request: NextRequest) {
   const queryParams = request.nextUrl.searchParams;
@@ -15,23 +23,7 @@ export async function GET(request: NextRequest) {
 
   if (!url) return response("no url", 400);
 
-  const startIndex = currentProxyIndex;
-  let songPage = "";
-  do {
-    try {
-      const proxyAgent = new HttpsProxyAgent(proxies[currentProxyIndex]);
-      const { data } = await axios.get(url, {
-        httpAgent: proxyAgent,
-      });
-      songPage = data;
-      break;
-    } catch (_) {
-      if (currentProxyIndex + 1 === proxies?.length) currentProxyIndex = 0;
-      else currentProxyIndex++;
-    }
-  } while (currentProxyIndex !== startIndex);
-
-  if (!songPage) throw Error("Failed fetch song page");
+  const songPage = await getContentPage(url);
 
   const preloadedState = songPage
     .slice(songPage.indexOf("window.__PRELOADED_STATE__"))
