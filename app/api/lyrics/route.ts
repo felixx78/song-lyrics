@@ -1,7 +1,8 @@
 import response from "@/app/helpers/response";
 import { NextRequest } from "next/server";
 import translate from "../translate";
-//@ts-expect-error
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+//@ts-ignore
 import cloudflareScraper from "cloudflare-scraper";
 
 export async function GET(request: NextRequest) {
