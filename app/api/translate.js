@@ -35,7 +35,7 @@ async function translate(text, from, to) {
       const response = await axios.get(url.toString());
       data = response.data;
       break;
-    } catch (error) {
+    } catch (_) {
       if (i < 2) await sleep(2000);
     }
   }
