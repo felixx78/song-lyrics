@@ -10,7 +10,15 @@ export async function GET(request: NextRequest) {
 
   if (!url) return response("no url", 400);
 
-  const { data: songPage } = await axios.get(url);
+  let songPage = "";
+  try {
+    const response = await axios.get(url);
+    console.log(response);
+    songPage = response.data;
+  } catch (e: any) {
+    console.log(e);
+    console.log(e?.toJson());
+  }
 
   const preloadedState = songPage
     .slice(songPage.indexOf("window.__PRELOADED_STATE__"))
