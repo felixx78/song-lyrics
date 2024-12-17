@@ -3,6 +3,15 @@ import { NextRequest } from "next/server";
 import axios from "axios";
 import translate from "../translate";
 
+const proxies =
+  process.env?.PROXIES &&
+  JSON.parse(process.env.PROXIES).map((i: any) => ({
+    ...i,
+    protocol: "http",
+  }));
+
+let currentProxyIndex = 0;
+
 export async function GET(request: NextRequest) {
   const queryParams = request.nextUrl.searchParams;
   const lang = queryParams.get("lang") || "en";
@@ -10,7 +19,21 @@ export async function GET(request: NextRequest) {
 
   if (!url) return response("no url", 400);
 
-  const { data: songPage } = (await axios.get(url)) as { data: string };
+  let startIndex = currentProxyIndex;
+  let songPage = "";
+  do {
+    try {
+      const { data } = await axios.get(url, {
+        proxy: proxies ? proxies[1] : undefined,
+      });
+      songPage = data;
+    } catch (e) {
+      if (currentProxyIndex + 1 === proxies?.length) currentProxyIndex = 0;
+      else currentProxyIndex++;
+    }
+  } while (currentProxyIndex !== startIndex);
+
+  if (!songPage) throw Error("Failed fetch song page");
 
   const preloadedState = songPage
     .slice(songPage.indexOf("window.__PRELOADED_STATE__"))
