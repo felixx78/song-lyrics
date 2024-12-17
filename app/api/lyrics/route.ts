@@ -24,10 +24,11 @@ export async function GET(request: NextRequest) {
   do {
     try {
       const { data } = await axios.get(url, {
-        proxy: proxies ? proxies[1] : undefined,
+        proxy: proxies ? proxies[currentProxyIndex] : undefined,
       });
       songPage = data;
-    } catch (_) {
+      break;
+    } catch (e) {
       if (currentProxyIndex + 1 === proxies?.length) currentProxyIndex = 0;
       else currentProxyIndex++;
     }
