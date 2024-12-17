@@ -1,19 +1,7 @@
 import response from "@/app/helpers/response";
 import { NextRequest } from "next/server";
 import translate from "../translate";
-import puppeteer from "puppeteer";
-
-const browser = await puppeteer.launch({
-  headless: true,
-});
-
-const getContentPage = async (url: string) => {
-  const page = await browser.newPage();
-  await page.goto(url, { waitUntil: "domcontentloaded" });
-  const content = await page.content();
-  await page.close();
-  return content;
-};
+import axios from "axios";
 
 export async function GET(request: NextRequest) {
   const queryParams = request.nextUrl.searchParams;
@@ -22,15 +10,7 @@ export async function GET(request: NextRequest) {
 
   if (!url) return response("no url", 400);
 
-  let songPage = "";
-  try {
-    const response = await getContentPage(url);
-    console.log(response);
-    songPage = response;
-  } catch (e: any) {
-    console.log(e.response);
-    console.log(e.toJSON());
-  }
+  let { data: songPage } = axios.get(url);
 
   const preloadedState = songPage
     .slice(songPage.indexOf("window.__PRELOADED_STATE__"))
