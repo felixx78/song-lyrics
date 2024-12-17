@@ -9,7 +9,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  serverExternalPackages: ["cloudflare-scraper"],
 };
 
 export default nextConfig;

@@ -1,9 +1,7 @@
 import response from "@/app/helpers/response";
 import { NextRequest } from "next/server";
 import translate from "../translate";
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-//@ts-ignore
-import cloudflareScraper from "cloudflare-scraper";
+import axios from "axios";
 
 export async function GET(request: NextRequest) {
   const queryParams = request.nextUrl.searchParams;
@@ -12,7 +10,7 @@ export async function GET(request: NextRequest) {
 
   if (!url) return response("no url", 400);
 
-  const { body: songPage } = await cloudflareScraper.get(url);
+  const { data: songPage } = await axios.get(url);
 
   const preloadedState = songPage
     .slice(songPage.indexOf("window.__PRELOADED_STATE__"))
