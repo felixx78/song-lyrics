@@ -1,4 +1,4 @@
-# [song lyrics](https://song-lyrics.org/)
+# song lyrics
 
 Next.js app for translating song lyrics
 
