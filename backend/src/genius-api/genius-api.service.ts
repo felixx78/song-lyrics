@@ -2,10 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
-import {
-  GeniusApiSearchResponse,
-  GeniusApiSongByIdResponse,
-} from './types/genius-api-search-response.type';
+import { GeniusApiSearchResponse, GeniusApiSongByIdResponse } from './genius-api-responses.type';
 
 @Injectable()
 export class GeniusApiService {
@@ -35,12 +32,9 @@ export class GeniusApiService {
 
   async getSongById(id: string) {
     const response = await firstValueFrom(
-      this.httpService.get<GeniusApiSongByIdResponse>(
-        this.BASE_URL + `/songs/${id}`,
-        {
-          headers: this.getHeaders(),
-        },
-      ),
+      this.httpService.get<GeniusApiSongByIdResponse>(this.BASE_URL + `/songs/${id}`, {
+        headers: this.getHeaders(),
+      }),
     );
 
     return response.data.response.song;
