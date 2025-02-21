@@ -5,21 +5,23 @@ import Settings from "@/app/components/Settings";
 import useSettingsStore from "@/app/stores/useSettingsStore";
 import type Song from "@/app/types/Song";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 import LoadingScreen from "@/app/components/LoadingScreen";
+import apiClient from "@/app/helpers/apiClient";
 
 const fetchSong = async (id: string) => {
-  const response = await axios.get(`/api/song/${id}`);
+  const response = await apiClient.get(`/api/songs/${id}`);
   return response.data as Song;
 };
 
 const fetchLyrics = async (url: string, lang?: string) => {
-  const response = await axios.get("/api/lyrics", { params: { url, lang } });
-  return response.data as { lyrics: string; translated: string; from: string };
+  const response = await apiClient.get("/api/songs/lyrics", {
+    params: { url, lang },
+  });
+  return response.data as { original: string; translated: string };
 };
 
 function Song() {
@@ -87,7 +89,7 @@ function Song() {
       <Settings />
 
       <Lyrics
-        orignal={lyricsData?.lyrics}
+        orignal={lyricsData?.original}
         translated={lyricsData?.translated}
       />
     </div>

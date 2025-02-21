@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import MangifyingGlass from "../icons/MangifyingGlass";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import Song from "../types/Song";
 import { useRouter } from "next/navigation";
 import Autocomplete from "./Autocomplete";
+import apiClient from "../helpers/apiClient";
 
 type Props = {
   size: "md" | "lg";
@@ -21,7 +21,7 @@ const getLabel = (v: Song) => {
 };
 
 const handleSearch = async (q: string) => {
-  const response = await axios.get(`/api/search?q=${q}`);
+  const response = await apiClient(`/api/search?q=${q}`);
   return response.data as Song[];
 };
 
