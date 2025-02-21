@@ -121,11 +121,6 @@ function Autocomplete<T>({
   const inputRect =
     inputRef.current && inputRef.current.getBoundingClientRect();
 
-  const handleTouch = (e: TouchEvent) => {
-    e.preventDefault();
-    setIsOpen(true);
-  };
-
   return (
     <div ref={ref} className={clsx("relative w-full", className)}>
       <div className="relative">
@@ -139,9 +134,6 @@ function Autocomplete<T>({
           type="text"
           onKeyDown={handleKeyDown}
           onFocus={() => setIsOpen(true)}
-          onTouchStart={handleTouch}
-          onTouchMove={handleTouch}
-          onTouchEnd={handleTouch}
         />
         <div className="absolute top-1/2 right-2.5 -translate-y-1/2">
           {icon ? icon : <ChevronDown />}
