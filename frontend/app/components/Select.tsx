@@ -31,14 +31,8 @@ function Select({ label, value, onChange, options, className }: Props) {
       }
     };
 
-    const handleScroll = () => setIsOpen(false);
-
-    window.addEventListener("scroll", handleScroll);
     window.addEventListener("click", handleClick);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("click", handleClick);
-    };
+    return () => window.removeEventListener("click", handleClick);
   }, [ref]);
 
   const handleChange = (i: (typeof options)[0]) => {
