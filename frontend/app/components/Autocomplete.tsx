@@ -165,7 +165,6 @@ function Autocomplete<T>({
           <p className="py-1.5 px-2 text-gray-400 select-none">Loading...</p>
         )}
       </div>
-      )
     </div>
   );
 }
