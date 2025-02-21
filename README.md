@@ -1,6 +1,8 @@
 # song lyrics
 
-Next.js app for translating song lyrics
+Song Lyrics Translation App
+
+[Live](https://song-lyrics.xyz)
 
 ## Tech Stack
 
