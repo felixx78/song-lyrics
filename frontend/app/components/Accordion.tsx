@@ -12,6 +12,7 @@ type Props = {
 
 function Accordion({ children, label, labelPosition, maxW }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  const [overflow, setOverflow] = useState<"hidden" | "visible">("hidden");
 
   return (
     <div style={{ maxWidth: maxW }} className="mx-auto mb-6 w-full">
@@ -28,6 +29,8 @@ function Accordion({ children, label, labelPosition, maxW }: Props) {
         </div>
       </button>
       <motion.div
+        onAnimationStart={() => !isOpen && setOverflow("hidden")}
+        onAnimationComplete={() => isOpen && setOverflow("visible")}
         initial="collapsed"
         animate={isOpen ? "open" : "collapsed"}
         variants={{
@@ -35,7 +38,7 @@ function Accordion({ children, label, labelPosition, maxW }: Props) {
           collapsed: { height: 0 },
         }}
         transition={{ duration: 0.2 }}
-        className="overflow-hidden"
+        style={{ overflow }}
       >
         {children}
       </motion.div>
