@@ -1,3 +1,5 @@
+"use client";
+
 import languages from "../helpers/languages";
 import useMediaQuery from "../hooks/use-media-query";
 import useSettingsStore from "../stores/useSettingsStore";

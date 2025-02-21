@@ -1,10 +1,9 @@
+"use client";
+
 import clsx from "clsx";
 import useSettingsStore from "../stores/useSettingsStore";
-
-type Props = Partial<{
-  orignal: string;
-  translated: string;
-}>;
+import { useQuery } from "@tanstack/react-query";
+import apiClient from "../helpers/apiClient";
 
 const fontStyles = {
   small: [16, 13],
@@ -24,10 +23,22 @@ const skeletonAlignClasses = {
   right: "ml-auto mr-0",
 };
 
-function Lyrics({ orignal, translated }: Props) {
-  const { alignment, fontSize, showFirst, mode } = useSettingsStore();
+const fetchLyrics = async (url: string, lang?: string) => {
+  const response = await apiClient.get("/api/songs/lyrics", {
+    params: { url, lang },
+  });
+  return response.data as { original: string; translated: string };
+};
 
-  if (!orignal || !translated) {
+function Lyrics({ url }: { url: string }) {
+  const { alignment, fontSize, showFirst, mode, language } = useSettingsStore();
+
+  const { data } = useQuery({
+    queryKey: ["lyrics", url, language],
+    queryFn: () => fetchLyrics(url, language),
+  });
+
+  if (!data) {
     return (
       <div
         className={clsx(
@@ -69,8 +80,8 @@ function Lyrics({ orignal, translated }: Props) {
     );
   }
 
-  const originalSplit = orignal.split("\n");
-  const translatedSplit = translated.split("\n");
+  const originalSplit = data.original.split("\n");
+  const translatedSplit = data.translated.split("\n");
 
   const first = showFirst === "translate" ? translatedSplit : originalSplit;
   const second = showFirst === "translate" ? originalSplit : translatedSplit;

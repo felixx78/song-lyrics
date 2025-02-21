@@ -1,3 +1,5 @@
+"use client";
+
 import clsx from "clsx";
 import ChevronDown from "../icons/ChevronDown";
 import { useState } from "react";

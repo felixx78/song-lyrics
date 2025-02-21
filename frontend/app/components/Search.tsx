@@ -45,7 +45,7 @@ function Search({ size, center }: Props) {
   }, []);
 
   const handleChange = (v: Song) => {
-    router.push(`/song/${v.id}`);
+    open(`/song/${v.id}`, "_self");
     setInputValue("");
   };
 
