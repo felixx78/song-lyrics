@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import MangifyingGlass from "../icons/MangifyingGlass";
 import { useQuery } from "@tanstack/react-query";
 import Song from "../types/Song";
-import { useRouter } from "next/navigation";
 import Autocomplete from "./Autocomplete";
 import apiClient from "../helpers/apiClient";
 import { clsx } from "clsx";
@@ -28,7 +27,6 @@ const handleSearch = async (q: string) => {
 };
 
 function Search({ size, center }: Props) {
-  const router = useRouter();
   const [inputValue, setInputValue] = useState("");
 
   const { data, isLoading } = useQuery({

@@ -11,7 +11,11 @@ const fetchSong = async (id: string) => {
   return response.data as Song;
 };
 
-export default async function Page({ params }: { params: { id: string } }) {
+type Props = {
+  params: Promise<{ id: string }>;
+};
+
+export default async function Page({ params }: Props) {
   const { id } = await params;
 
   try {
@@ -49,7 +53,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         <Lyrics url={data.url} />
       </div>
     );
-  } catch (error) {
+  } catch (_) {
     notFound();
   }
 }
