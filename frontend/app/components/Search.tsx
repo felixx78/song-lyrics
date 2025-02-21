@@ -7,9 +7,11 @@ import Song from "../types/Song";
 import { useRouter } from "next/navigation";
 import Autocomplete from "./Autocomplete";
 import apiClient from "../helpers/apiClient";
+import { clsx } from "clsx";
 
 type Props = {
   size: "md" | "lg";
+  center?: boolean;
 };
 
 const getLabel = (v: Song) => {
@@ -25,7 +27,7 @@ const handleSearch = async (q: string) => {
   return response.data as Song[];
 };
 
-function Search({ size }: Props) {
+function Search({ size, center }: Props) {
   const router = useRouter();
   const [inputValue, setInputValue] = useState("");
 
@@ -62,7 +64,10 @@ function Search({ size }: Props) {
       icon={<MangifyingGlass />}
       disableFiltering
       isLoading={isLoading}
-      className={size === "lg" ? "mx-auto max-w-[500px]" : "max-w-[350px]"}
+      className={clsx(
+        size === "lg" ? "max-w-[500px]" : "max-w-[350px]",
+        center && "mx-auto"
+      )}
     />
   );
 }
