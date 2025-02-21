@@ -63,7 +63,6 @@ function Search({ size }: Props) {
       disableFiltering
       isLoading={isLoading}
       className={size === "lg" ? "mx-auto max-w-[500px]" : "max-w-[350px]"}
-      useAbsolute={size === "lg"}
     />
   );
 }

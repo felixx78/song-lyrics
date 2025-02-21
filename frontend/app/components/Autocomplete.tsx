@@ -25,7 +25,6 @@ type Props<T> = {
   inputValue?: string;
   isLoading?: boolean;
   className?: string;
-  useAbsolute?: boolean;
 };
 
 function Autocomplete<T>({
@@ -40,7 +39,6 @@ function Autocomplete<T>({
   inputValue,
   isLoading,
   className,
-  useAbsolute,
 }: Props<T>) {
   const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -53,7 +51,6 @@ function Autocomplete<T>({
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
   const [showFiltered, setShowFiltered] = useState(false);
-  const [hasTouched, setHasTouched] = useState(false);
 
   const filteredOptions = useMemo(() => {
     return disableFiltering
@@ -76,18 +73,8 @@ function Autocomplete<T>({
       setHighlightedIndex(null);
     };
 
-    const handleScroll = () => {
-      if (useAbsolute) return;
-      setIsOpen(false);
-      inputRef.current?.blur();
-    };
-
     document.addEventListener("click", handleClick);
-    document.addEventListener("scroll", handleScroll);
-    return () => {
-      document.removeEventListener("click", handleClick);
-      document.removeEventListener("scroll", handleScroll);
-    };
+    return () => document.removeEventListener("click", handleClick);
   }, [ref, inputRef, selected]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -135,9 +122,7 @@ function Autocomplete<T>({
     inputRef.current && inputRef.current.getBoundingClientRect();
 
   const handleTouch = (e: TouchEvent) => {
-    if (useAbsolute) return;
     e.preventDefault();
-    setHasTouched(true);
     setIsOpen(true);
   };
 
@@ -152,7 +137,6 @@ function Autocomplete<T>({
           spellCheck={false}
           placeholder={placeholder}
           type="text"
-          readOnly={hasTouched}
           onKeyDown={handleKeyDown}
           onFocus={() => setIsOpen(true)}
           onTouchStart={handleTouch}
@@ -178,12 +162,10 @@ function Autocomplete<T>({
           inputRect && (
             <div
               style={{
-                left: useAbsolute ? "0" : inputRect.left,
-                top: useAbsolute
-                  ? "110%"
-                  : inputRect.top + inputRect.height + 5,
+                left: "0",
+                top: "110%",
                 width: inputRect.width,
-                position: useAbsolute ? "absolute" : "fixed",
+                position: "absolute",
               }}
               className={clsx(
                 "bg-black z-10 transition-opacity thin-scroll max-h-[280px]  overflow-y-auto border w-full divide-y divide-gray-600 rounded-md border-gray-600",
@@ -211,7 +193,7 @@ function Autocomplete<T>({
               )}
             </div>
           ),
-          useAbsolute ? ref.current! : document.body
+          ref.current!
         )}
     </div>
   );
