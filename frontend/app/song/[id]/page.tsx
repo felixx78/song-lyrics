@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import Lyrics from "@/app/components/Lyrics";
 import Settings from "@/app/components/Settings";
 import type Song from "@/app/types/Song";
@@ -14,13 +12,12 @@ const fetchSong = async (id: string) => {
 };
 
 type Props = {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 };
 
 export default async function Page({ params }: Props) {
-  const { id } = await params;
-
   try {
+    const { id } = params;
     const data = await fetchSong(id);
 
     return (
@@ -37,7 +34,7 @@ export default async function Page({ params }: Props) {
           <h1 className="text-2xl sm:text-3xl mb-3 text-center">
             {data.title}
           </h1>
-          <p className="text-center text-gary-300 mb-4">
+          <p className="text-center mb-4">
             {[data.primary_artist, ...data.featured_artists]
               .map((i) => i.name)
               .join(", ")}
@@ -56,6 +53,6 @@ export default async function Page({ params }: Props) {
       </div>
     );
   } catch (_) {
-    notFound();
+    return notFound();
   }
 }
