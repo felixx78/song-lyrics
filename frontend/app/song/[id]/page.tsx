@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Lyrics from "@/app/components/Lyrics";
 import Settings from "@/app/components/Settings";
 import type Song from "@/app/types/Song";
