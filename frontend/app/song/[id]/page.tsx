@@ -12,12 +12,12 @@ const fetchSong = async (id: string) => {
 };
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 export default async function Page({ params }: Props) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const data = await fetchSong(id);
 
     return (
