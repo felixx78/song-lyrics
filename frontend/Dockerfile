@@ -1,23 +1,24 @@
-FROM node:18-bullseye AS builder
+FROM node:18-alpine as builder
 
 ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY package*.json ./
 
-RUN npm ci --production
+RUN npm ci
 
 COPY . .
 
 RUN npm run build
 
-FROM node:18-alpine
+FROM node:18-alpine as runner
 
 WORKDIR /app
 
-COPY --from=builder /app ./
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 
 EXPOSE 3000
 
